@@ -1,0 +1,13 @@
+This project has a fresh install of the BMAD Method (Breakthrough Method for Agile AI Driven Development). BMAD was designed for AI IDEs like Claude Code, Cursor, and Windsurf — not Replit. Analyze everything in this project and create a detailed conversion plan to make this methodology work natively in the Replit environment, driven by you as the AI agent.
+Inventory: Read every file in _bmad/, _bmad-output/, _bmad/_config/, .cursor/, and .config/. Create a complete directory tree with one-line descriptions of what each file does.
+Categorize every file as: KEEP AS-IS (platform-agnostic), KEEP BUT MODIFY (good methodology but has IDE-specific references to rewrite), DELETE (only exists for other IDEs), or NEW — NEEDS TO BE CREATED.
+The core conversion challenge: BMAD uses slash commands (/bmad-help, /create-prd, /dev-story) to trigger workflows and load agent personas. Replit doesn't support slash commands. The replit.md file needs to become the orchestration layer — the router that tells you which persona to adopt, which workflow to follow, and which files to read based on what I ask for.
+Propose an architecture that addresses:
+
+replit.md structure — Keep it lean as a router/index pointing to files. Don't inline all content — a massive replit.md will degrade your context performance.
+Persona switching — When I say "act as the PM" or "let's create a PRD", how do you know which agent file to read and follow?
+Workflow sequencing — How do you track what planning phase we're in, what's been completed, and what comes next?
+Portability — This toolkit needs to drop into any existing Replit project. What's the minimal footprint?
+Brownfield vs greenfield — If dropped into an existing codebase, you need a codebase assessment step first. If fresh, start from scratch. How does the workflow handle both?
+
+Deliver: Full file inventory with keep/modify/delete/create recommendations, proposed directory structure, replit.md outline, workflow for both greenfield and brownfield, and anything you need me to decide before building.
