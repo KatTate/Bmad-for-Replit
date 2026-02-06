@@ -18,18 +18,18 @@ description: Get unstuck by showing what workflow steps come next or answering q
 
 ### Command-Based Workflows
 When `command` field has a value:
-- Show the command prefixed with `/` (e.g., `/bmad-bmm-create-prd`)
+- Show the workflow name and its trigger phrase naturally (e.g., "say **'create PRD'** or **'CP'** to start")
 
 ### Agent-Based Workflows
 When `command` field is empty:
-- User loads agent first via `/agent-command`
+- User asks to become or work with that agent (e.g., "act as the tech writer" or "I need Paige")
 - Then invokes by referencing the `code` field or describing the `name` field
-- Do NOT show a slash command — show the code value and agent load instruction instead
+- Show the natural language trigger and the code shortcut
 
 Example presentation for empty command:
 ```
 Explain Concept (EC)
-Load: /tech-writer, then ask to "EC about [topic]"
+Ask: "act as tech writer" then request "EC about [topic]"
 Agent: Tech Writer
 Description: Create clear technical explanations with examples...
 ```
@@ -75,8 +75,9 @@ Determine what was just completed:
    - Brief **description**
 
 6. **Additional guidance to convey**:
-   - Run each workflow in a **fresh context window**
+   - For best results, start a **new chat** for each major workflow so context stays fresh
    - For **validation workflows**: recommend using a different high-quality LLM if available
    - For conversational requests: match the user's tone while presenting clearly
+   - Remind the user they can always ask "what should I do next?" for guidance
 
 7. Return to the calling process after presenting recommendations.
