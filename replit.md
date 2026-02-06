@@ -83,8 +83,16 @@ _bmad-output/             # Generated artifacts go here
 - **Project config:** `_bmad/bmm/config.yaml` (project name, skill level, output paths)
 - **Help catalog:** `_bmad/_config/bmad-help.csv` (phase-sequenced workflow guide)
 
+## Installation (for dropping into other projects)
+
+To install BMad into an existing Replit project:
+1. Copy `_bmad/` folder and `install-bmad.sh` into the project root
+2. Run: `bash install-bmad.sh`
+3. The script auto-detects brownfield vs greenfield and safely merges with any existing `replit.md`
+
 ## Recent Changes
 
+- 2026-02-06: Created install script for brownfield project integration
 - 2026-02-06: Added brownfield assessment workflow (AB) for existing Replit projects
 - 2026-02-06: Converted from Cursor IDE to Replit Agent (natural language triggers replace slash commands)
 - 2026-02-06: Installed BMad Method v6.0.0-Beta.7
