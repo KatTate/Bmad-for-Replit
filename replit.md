@@ -36,6 +36,7 @@ When the user's message matches a BMAD trigger phrase, agent name, or workflow c
 
 | Say | Code | What It Does |
 |---|---|---|
+| "assess brownfield" | AB | Scan existing project, find best BMAD entry point |
 | "brainstorm" | BP | Generate and explore ideas |
 | "create brief" | CB | Nail down the product idea |
 | "create PRD" | CP | Product requirements document |
@@ -84,6 +85,7 @@ _bmad-output/             # Generated artifacts go here
 
 ## Recent Changes
 
+- 2026-02-06: Added brownfield assessment workflow (AB) for existing Replit projects
 - 2026-02-06: Converted from Cursor IDE to Replit Agent (natural language triggers replace slash commands)
 - 2026-02-06: Installed BMad Method v6.0.0-Beta.7
 
