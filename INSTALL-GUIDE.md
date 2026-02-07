@@ -21,79 +21,26 @@ This guide covers two scenarios:
 
 Use this when you already have a Replit project with code in it and you want to add the BMad planning and development framework on top of it.
 
-### Step 1: Open Your Existing Project
+### Step 1: Upload the Zip File
 
-Open the Replit project where you want to install BMad.
+1. Open your existing Replit project
+2. In the **Files** panel on the left side of Replit, click the three-dot menu (⋯) at the top
+3. Select **Upload file**
+4. Choose the BMad zip file from your computer
+5. Wait for the upload to finish — you should see the zip file appear in your file list
 
-### Step 2: Upload the Zip File
+### Step 2: Tell the Agent to Install It
 
-1. In the **Files** panel on the left side of Replit, click the three-dot menu (⋯) at the top
-2. Select **Upload file**
-3. Choose the BMad zip file from your computer
-4. Wait for the upload to finish — you should see the zip file appear in your file list
+In the chat, tell the Replit Agent something like:
 
-### Step 3: Unzip the File
+> "Unzip the BMad zip file and run the install script"
 
-1. Open the **Shell** tab at the bottom of Replit (if you don't see it, click the "+" tab and choose "Shell")
-2. Type the following command and press Enter:
+The agent will handle everything from there — it will unzip the file, run the installer, and set everything up. The installer automatically:
+- Detects that this is a **brownfield** project (meaning it has existing code)
+- Creates the `_bmad-output/` folders for generated documents
+- Safely adds the BMad configuration to your `replit.md` file **without overwriting** any of your existing content
 
-```bash
-unzip bmad-method*.zip
-```
-
-> **Note:** If your zip file has a different name, replace `bmad-method*.zip` with the actual filename. You can check by typing `ls *.zip` first.
-
-3. You should now see these items in your file list:
-   - `_bmad/` folder (the toolkit)
-   - `install-bmad.sh` (the installer script)
-   - `verify-bmad.sh` (optional verification script)
-
-### Step 4: Run the Installer
-
-In the Shell, type:
-
-```bash
-bash install-bmad.sh
-```
-
-The installer will:
-- Detect that this is a **brownfield** project (meaning it has existing code)
-- Create the `_bmad-output/` folders for generated documents
-- Safely add the BMad configuration to your `replit.md` file **without overwriting** any of your existing content
-
-You should see output like:
-
-```
-==========================================
- BMad Method 6.0.0-Beta.7 — Replit Installer
-==========================================
-
-[1/5] Found _bmad/ toolkit directory
-[2/5] Created _bmad-output/ directories
-[3/5] Detected BROWNFIELD project (X existing indicators found)
-[4/5] Appending BMAD section to existing replit.md...
-[5/5] Installation complete!
-```
-
-### Step 5: Verify the Installation (Optional)
-
-Run the verification script to make sure everything is in place:
-
-```bash
-bash verify-bmad.sh
-```
-
-All checks should show **OK**. If any show **FAIL**, see the Troubleshooting section below.
-
-### Step 6: Clean Up
-
-Remove the zip file to keep your project tidy:
-
-```bash
-rm bmad-method*.zip
-```
-
-### Step 7: Start Using BMad
+### Step 3: Start Using BMad
 
 1. **Start a new chat** with the Replit Agent (this ensures the agent reads the updated `replit.md`)
 2. Say: **"assess brownfield"** or just type **"AB"**
