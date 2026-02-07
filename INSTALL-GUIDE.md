@@ -4,8 +4,8 @@
 
 This guide covers two scenarios:
 
-- **Scenario A** — Installing BMad into an existing Replit project (you already have code)
-- **Scenario B** — Creating a brand-new Replit project using BMad (starting from scratch)
+- **Scenario A** — Adding BMad to an existing Replit project (you already have code)
+- **Scenario B** — Starting a brand-new project from scratch using BMad
 
 ---
 
@@ -13,119 +13,74 @@ This guide covers two scenarios:
 
 - A Replit account (free or paid)
 - The BMad Method zip file downloaded to your computer
-- A few minutes of your time
 
 ---
 
-## Scenario A: Install BMad into an Existing Replit Project
+## Scenario A: Add BMad to an Existing Project
 
-Use this when you already have a Replit project with code in it and you want to add the BMad planning and development framework on top of it.
+This is the simplest path. Two steps.
 
-### Step 1: Upload the Zip File
+### Step 1: Attach the Zip File
 
-1. Open your existing Replit project
-2. In the **Files** panel on the left side of Replit, click the three-dot menu (⋯) at the top
-3. Select **Upload file**
-4. Choose the BMad zip file from your computer
-5. Wait for the upload to finish — you should see the zip file appear in your file list
+In your Replit project, click the **attachment button** (paperclip icon) in the Agent chat and attach the BMad zip file.
 
 ### Step 2: Tell the Agent to Install It
 
-In the chat, tell the Replit Agent something like:
+Type something like:
 
-> "Unzip the BMad zip file and run the install script"
+> "Unzip and install this file, then follow the instructions"
 
-The agent will handle everything from there — it will unzip the file, run the installer, and set everything up. The installer automatically:
-- Detects that this is a **brownfield** project (meaning it has existing code)
-- Creates the `_bmad-output/` folders for generated documents
-- Safely adds the BMad configuration to your `replit.md` file **without overwriting** any of your existing content
+That's it. The agent handles everything — unzipping, running the installer, setting up the configuration. Your existing code and settings are preserved.
 
-### Step 3: Start Using BMad
+### After Installation
 
-1. **Start a new chat** with the Replit Agent (this ensures the agent reads the updated `replit.md`)
-2. Say: **"assess brownfield"** or just type **"AB"**
-   - This will scan your existing project and figure out where you are in the development process
-   - It recommends the best entry point into the BMad workflow based on what you already have
+Start a **new chat** and say **"assess brownfield"** (or just **"AB"**). This scans your project and recommends the best starting point in the BMad workflow based on what you already have built.
 
 ---
 
-## Scenario B: Create a New Replit Project with BMad
+## Scenario B: Start a New Project with BMad
 
-Use this when you're starting a brand-new project from scratch and want to use BMad from the very beginning.
+When you go to create a new project on Replit, you'll see a screen asking "What do you want to make?" with several options. Here's what to pick:
 
-### Step 1: Create a New Replit
+### Step 1: Create the Project
 
-1. Go to [replit.com](https://replit.com) and click **Create Repl** (or **+** button)
-2. Choose any template — a blank **Bash** or **HTML/CSS/JS** Repl works fine, but any language is OK
-3. Give your project a name and click **Create Repl**
+1. On the Replit home screen, select the **App** tab (not Design)
+2. Set the mode dropdown to **Build**
+3. For the project type, select **Start from scratch**
+4. In the description box, type something like:
 
-### Step 2: Upload the Zip File
+> "Set up a blank project. Don't build anything yet."
 
-1. In the **Files** panel on the left, click the three-dot menu (⋯)
-2. Select **Upload file**
-3. Choose the BMad zip file from your computer
+5. Click **Start**
 
-### Step 3: Unzip the File
+This gives you a clean, empty project with Agent ready to go.
 
-1. Open the **Shell** tab
-2. Run:
+### Step 2: Attach and Install BMad
 
-```bash
-unzip bmad-method*.zip
-```
+Once the project opens:
 
-3. Confirm you see the `_bmad/` folder and `install-bmad.sh` in your file list
+1. Click the **attachment button** (paperclip icon) in the Agent chat and attach the BMad zip file
+2. Tell the agent:
 
-### Step 4: Run the Installer
+> "Unzip and install this file, then follow the instructions"
 
-```bash
-bash install-bmad.sh
-```
+The agent will set everything up.
 
-The installer will:
-- Detect that this is a **greenfield** project (no existing code)
-- Create the output directories
-- Create a fresh `replit.md` with all the BMad configuration
+### After Installation
 
-You should see output like:
+Start a **new chat** and say one of the following to get going:
 
-```
-==========================================
- BMad Method 6.0.0-Beta.7 — Replit Installer
-==========================================
-
-[1/5] Found _bmad/ toolkit directory
-[2/5] Created _bmad-output/ directories
-[3/5] Detected GREENFIELD project (no existing project files found)
-[4/5] Creating new replit.md...
-[5/5] Installation complete!
-```
-
-### Step 5: Verify the Installation (Optional)
-
-```bash
-bash verify-bmad.sh
-```
-
-### Step 6: Clean Up
-
-```bash
-rm bmad-method*.zip
-```
-
-### Step 7: Start Using BMad
-
-1. **Start a new chat** with the Replit Agent
-2. Say one of the following to get going:
-   - **"start BMad"** — The BMad Master will introduce you and help you get oriented
-   - **"brainstorm"** or **"BP"** — Jump straight into brainstorming ideas
-   - **"what should I do next?"** — Get guidance on the recommended next step
+- **"start BMad"** — Get oriented and learn what to do first
+- **"brainstorm"** — Jump straight into generating ideas
+- **"what should I do next?"** — Get a recommendation for your next step
 
 ---
 
 ## Quick Command Reference
 
-Once installed, you can use these commands in any Replit Agent chat:
+Once installed, you can use any of these in the Agent chat:
+
+### Workflows
 
 | What to Say | What It Does |
 |---|---|
@@ -143,6 +98,8 @@ Once installed, you can use these commands in any Replit Agent chat:
 | "quick spec" or "QS" | Fast technical spec (simple projects) |
 | "quick dev" or "QD" | Fast implementation (simple projects) |
 
+### Agents
+
 You can also call agents by name:
 
 | Say | Agent |
@@ -159,64 +116,21 @@ You can also call agents by name:
 
 ---
 
-## Troubleshooting
+## Recommended Workflow Order
 
-### "ERROR: _bmad/ directory not found"
+### For New Projects
 
-The `_bmad/` folder needs to be in the project root (the top level). This usually means the zip file extracted into a subfolder. Check:
-
-```bash
-ls
-```
-
-If you see a folder like `bmad-method-main/` instead of `_bmad/` at the top level, move the contents up:
-
-```bash
-mv bmad-method-main/* .
-mv bmad-method-main/.* . 2>/dev/null
-rmdir bmad-method-main
-```
-
-Then run `bash install-bmad.sh` again.
-
-### Agent doesn't respond to BMad commands
-
-The Replit Agent reads `replit.md` at the start of each conversation. If BMad commands aren't working:
-
-1. Check that `replit.md` exists and contains the BMad section (look for the "BMad Method" heading)
-2. **Start a new chat** — the agent only reads `replit.md` when a conversation begins
-3. Run `bash verify-bmad.sh` to confirm all files are in place
-
-### Zip file won't upload
-
-- Make sure the file is under Replit's upload size limit
-- Try refreshing the Replit page and uploading again
-- As an alternative, you can drag and drop the zip file directly onto the Files panel
-
-### verify-bmad.sh shows warnings or unexpected results
-
-- **FAIL about ".cursor directory":** This check is only relevant if you migrated from Cursor IDE. If you've never used Cursor, you can safely ignore this message
-- **WARN about output directories:** Just run `bash install-bmad.sh` again — it will create them
-- **WARN about help.md:** This is cosmetic and won't affect functionality
-- **FAIL about missing files:** These indicate missing toolkit files — re-upload and unzip the BMad package
-
----
-
-## Recommended Workflow
-
-### For New Projects (Greenfield)
-
+Full workflow:
 ```
 brainstorm → create brief → create PRD → create architecture → create epics → sprint planning → dev story
 ```
 
-Or use the simplified path for small projects:
-
+Simplified path for small projects:
 ```
 brainstorm → quick spec → quick dev
 ```
 
-### For Existing Projects (Brownfield)
+### For Existing Projects
 
 ```
 assess brownfield → (follow the recommended entry point) → continue through the workflow
@@ -224,35 +138,55 @@ assess brownfield → (follow the recommended entry point) → continue through 
 
 ### Anytime You're Unsure
 
-Just say **"what should I do next?"** and BMad will analyze where you are and recommend the next step.
+Just say **"what should I do next?"** and BMad will figure out where you are and tell you what comes next.
 
 ---
 
-## Project Structure After Installation
+## Troubleshooting
+
+### Agent doesn't respond to BMad commands
+
+The agent reads the project configuration at the start of each conversation. If BMad commands aren't working:
+
+1. Make sure the installation completed successfully
+2. **Start a new chat** — the agent only picks up the configuration when a conversation begins
+
+### The zip extracted into a subfolder
+
+Sometimes the zip extracts into a nested folder (like `bmad-method-main/`) instead of putting files directly in the project root. If that happens, just tell the agent:
+
+> "Move the contents of the bmad-method folder to the project root and run the install script"
+
+### verify-bmad.sh shows unexpected results
+
+You can optionally run `bash verify-bmad.sh` in the Shell to check the installation. Common messages:
+
+- **FAIL about ".cursor directory":** Only relevant if migrating from Cursor IDE — safe to ignore
+- **WARN about output directories:** Run the install script again to create them
+- **WARN about help.md:** Cosmetic, doesn't affect anything
+- **FAIL about missing files:** Re-upload and install the BMad package
+
+---
+
+## What Gets Installed
 
 ```
 your-project/
 ├── _bmad/                          # BMad toolkit (don't modify)
-│   ├── core/                       # Core engine
-│   ├── bmm/                        # Methodology module
-│   ├── _config/                    # Configuration files
-│   ├── _memory/                    # Agent memory
-│   └── replit-routing.md           # Command routing table
-├── _bmad-output/                   # Your generated documents appear here
+├── _bmad-output/                   # Your generated documents go here
 │   ├── planning-artifacts/         # Briefs, PRDs, architecture docs
 │   └── implementation-artifacts/   # Sprint plans, stories, reviews
-├── install-bmad.sh                 # Installer (can delete after install)
-├── verify-bmad.sh                  # Verification (can delete after install)
+├── install-bmad.sh                 # Installer (safe to delete after install)
+├── verify-bmad.sh                  # Verification (safe to delete after install)
 ├── replit.md                       # Project config (agent reads this)
-└── (your project files...)         # Your existing code stays untouched
+└── (your existing project files)   # Untouched
 ```
 
 ---
 
 ## Tips
 
-- **Always start a new chat** after installing BMad so the agent picks up the configuration
-- **You can re-run the installer** safely at any time — it won't damage your existing content
-- **The `_bmad/` folder** contains the toolkit itself — you generally don't need to edit anything in there
-- **The `_bmad-output/` folder** is where all your planning documents and artifacts get saved
-- **Configuration files** are in `_bmad/core/config.yaml` (your name, language) and `_bmad/bmm/config.yaml` (project settings)
+- **Always start a new chat** after installing BMad so the agent picks up the new configuration
+- **You can re-run the installer** safely — it won't damage your existing content
+- **The `_bmad-output/` folder** is where all your planning documents get saved
+- **Configuration files** are in `_bmad/core/config.yaml` (your name, language) and `_bmad/bmm/config.yaml` (project settings) — the agent can update these for you if you ask
