@@ -92,6 +92,7 @@ To install BMad into an existing Replit project:
 
 ## Recent Changes
 
+- 2026-02-08: Synced upstream fixes — fixed help task path (7 files), added Party Mode return protocol, removed Claude Code-specific references
 - 2026-02-06: Created install script for brownfield project integration
 - 2026-02-06: Added brownfield assessment workflow (AB) for existing Replit projects
 - 2026-02-06: Converted from Cursor IDE to Replit Agent (natural language triggers replace slash commands)
