@@ -33,12 +33,12 @@ if [ ! -d "_bmad" ]; then
   exit 1
 fi
 
-echo "[1/5] Found _bmad/ toolkit directory"
+echo "[1/6] Found _bmad/ toolkit directory"
 
 # ─── Step 2: Create output directories ─────────────────────────────────────
 mkdir -p _bmad-output/planning-artifacts
 mkdir -p _bmad-output/implementation-artifacts
-echo "[2/5] Created _bmad-output/ directories"
+echo "[2/6] Created _bmad-output/ directories"
 
 # ─── Step 3: Detect project type ───────────────────────────────────────────
 IS_BROWNFIELD=false
@@ -60,9 +60,9 @@ done
 
 if [ "$EXISTING_FILES" -gt 0 ]; then
   IS_BROWNFIELD=true
-  echo "[3/5] Detected BROWNFIELD project ($EXISTING_FILES existing indicators found)"
+  echo "[3/6] Detected BROWNFIELD project ($EXISTING_FILES existing indicators found)"
 else
-  echo "[3/5] Detected GREENFIELD project (no existing project files found)"
+  echo "[3/6] Detected GREENFIELD project (no existing project files found)"
 fi
 
 # ─── Step 4: Handle replit.md ──────────────────────────────────────────────
@@ -172,7 +172,7 @@ BMAD_SECTION_END
 if [ -f "replit.md" ]; then
   # Check if BMAD is already installed
   if grep -q "$BMAD_MARKER" replit.md 2>/dev/null; then
-    echo "[4/5] Updating existing BMAD section in replit.md..."
+    echo "[4/6] Updating existing BMAD section in replit.md..."
 
     # Remove old BMAD section and replace with new one
     # Create temp file with content before BMAD marker
@@ -199,7 +199,7 @@ if [ -f "replit.md" ]; then
     echo "         Preserved existing project content, updated BMAD section"
 
   else
-    echo "[4/5] Appending BMAD section to existing replit.md..."
+    echo "[4/6] Appending BMAD section to existing replit.md..."
 
     # Preserve existing content and append BMAD section
     echo "" >> replit.md
@@ -211,14 +211,23 @@ if [ -f "replit.md" ]; then
   fi
 
 else
-  echo "[4/5] Creating new replit.md..."
+  echo "[4/6] Creating new replit.md..."
   generate_bmad_section > replit.md
   echo "         Created fresh replit.md with BMAD configuration"
 fi
 
-# ─── Step 5: Summary ──────────────────────────────────────────────────────
+# ─── Step 5: Copy update script ──────────────────────────────────────────
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+if [ -f "$SCRIPT_DIR/update-bmad.sh" ]; then
+  cp "$SCRIPT_DIR/update-bmad.sh" ./update-bmad.sh 2>/dev/null || true
+  echo "[5/6] Copied update script (run 'bash update-bmad.sh' for future updates)"
+else
+  echo "[5/6] Update script not found — you can download it from the BMad repo"
+fi
 
-echo "[5/5] Installation complete!"
+# ─── Step 6: Summary ──────────────────────────────────────────────────────
+
+echo "[6/6] Installation complete!"
 echo ""
 echo "=========================================="
 echo " BMad Method installed successfully!"

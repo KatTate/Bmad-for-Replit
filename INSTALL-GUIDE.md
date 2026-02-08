@@ -184,6 +184,41 @@ your-project/
 
 ---
 
+## Updating BMad
+
+When a new version of BMad is available, updating is a single command. Each installed project includes an update script that handles everything automatically.
+
+### How to Update
+
+In the Replit project where BMad is installed, start a new chat and say:
+
+> "Run `bash update-bmad.sh`"
+
+That's it. The script will:
+- Download the latest version from GitHub
+- Replace the toolkit files
+- Preserve your project configuration (project name, user name, language settings)
+- Leave your planning artifacts in `_bmad-output/` completely untouched
+
+After the update finishes, **start a new chat** so the agent picks up the changes.
+
+### Checking Your Version
+
+Your current version is stored in `_bmad/_config/version.txt`. You can ask the agent:
+
+> "What version of BMad is installed?"
+
+### If update-bmad.sh is Missing
+
+If you installed BMad before the update script was added, you can either:
+
+1. **Download the latest zip** from the source repo and tell the agent:
+   > "Unzip this and replace the `_bmad/` folder, the install script, and grab the update-bmad.sh file. Don't touch my project files or _bmad-output/"
+
+2. **Or** tell the agent to create it by downloading from: `https://github.com/KatTate/Bmad-for-Replit`
+
+---
+
 ## Tips
 
 - **Always start a new chat** after installing BMad so the agent picks up the new configuration

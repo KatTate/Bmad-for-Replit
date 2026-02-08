@@ -90,8 +90,13 @@ To install BMad into an existing Replit project:
 2. Run: `bash install-bmad.sh`
 3. The script auto-detects brownfield vs greenfield and safely merges with any existing `replit.md`
 
+## Updating BMad in Installed Projects
+
+Each installed project includes `update-bmad.sh`. Run `bash update-bmad.sh` to pull the latest version from the GitHub source repo (`KatTate/Bmad-for-Replit`). The script preserves user config files and `_bmad-output/`. Version tracking is in `_bmad/_config/version.txt`.
+
 ## Recent Changes
 
+- 2026-02-08: Added update mechanism — `update-bmad.sh` pulls latest from GitHub, preserves user configs, reports version changes
 - 2026-02-08: Synced upstream fixes — fixed help task path (7 files), added Party Mode return protocol, removed Claude Code-specific references
 - 2026-02-06: Created install script for brownfield project integration
 - 2026-02-06: Added brownfield assessment workflow (AB) for existing Replit projects
