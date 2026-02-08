@@ -1,0 +1,42 @@
+Here's what I'd paste to the Agent:
+
+Context: We've identified that the current CS and DS workflows create redundancy with Replit Agent's native capabilities. The BMAD artifacts should function as context documents the Agent ingests, not workflow scripts the Agent executes. Update both workflows, templates, and checklists based on these principles:
+Create Story (CS) workflow changes:
+Stories should produce intent and constraint documents, not implementation scripts. The output template should include:
+
+Story (user story format — keep as-is)
+Acceptance Criteria (keep as-is — these are the verification standard)
+Dev Notes section containing: architecture patterns to follow, anti-patterns and hard constraints, gotchas and integration warnings, file change summary table (directional, not prescriptive), dependencies and environment variables
+Dev Agent Record (keep for traceability)
+
+Remove from the story template:
+
+Tasks/Subtasks section — the Agent creates its own task plan from the acceptance criteria and dev notes. Don't pre-write implementation steps.
+Specific file paths in acceptance criteria — keep them in dev notes as guidance, not as pass/fail criteria
+Any step-by-step implementation sequencing
+
+The quality bar for a story is: Could a competent developer (or Agent) read the acceptance criteria and dev notes and build the right thing without the task list? If yes, the story is complete. If no, the acceptance criteria or dev notes are missing something — fix those, don't add subtasks.
+Dev Story (DS) workflow changes:
+
+Drop the TDD mandate as a universal requirement. Replace with: "Test appropriately for the task type. Schema, config, and infrastructure tasks should be verified by running them. Business logic and API endpoints should have tests. The Agent decides the testing approach."
+Eliminate checkbox-by-checkbox story file updates during implementation. The story file status gets updated once at completion (ready-for-dev → complete or blocked).
+Remove any competitive review checklists that duplicate what Replit's architect tool already does. Use the architect tool for code review.
+The story file is read at the start as the authoritative context. Dev Notes are treated as hard constraints, not suggestions. Acceptance criteria are the definition of done.
+
+The DS workflow should be:
+
+Load story file as context
+Agent creates its own implementation plan (using Replit's native task management)
+Implement, with Dev Notes as hard constraints
+Verify against acceptance criteria
+Update story status and Dev Agent Record
+
+What to preserve across both workflows:
+
+Epic-level planning and sprint tracking (BMAD's real value-add)
+Architecture docs, PRD, and tech stack docs as persistent context
+The retrospective entries per epic
+Sprint status YAML tracking
+The principle that acceptance criteria are specific and testable
+
+Don't over-engineer the workflow update. The simpler these workflows are, the less friction between BMAD's planning value and Replit's execution capabilities.
