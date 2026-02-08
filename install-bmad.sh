@@ -42,27 +42,55 @@ echo "[2/6] Created _bmad-output/ directories"
 
 # ─── Step 3: Detect project type ───────────────────────────────────────────
 IS_BROWNFIELD=false
-EXISTING_FILES=0
+STRONG_INDICATORS=0
+WEAK_INDICATORS=0
 
-# Check for common indicators of an existing project
-for indicator in "package.json" "requirements.txt" "Cargo.toml" "go.mod" "Gemfile" "pyproject.toml" "pom.xml" "build.gradle" "composer.json" "mix.exs"; do
-  if [ -f "$indicator" ]; then
-    EXISTING_FILES=$((EXISTING_FILES + 1))
+has_real_content() {
+  local file="$1"
+  local lines
+  lines=$(wc -l < "$file" 2>/dev/null || echo "0")
+  [ "$lines" -gt 5 ]
+}
+
+dir_has_code() {
+  local dir="$1"
+  local count
+  count=$(find "$dir" -maxdepth 2 -type f \( -name "*.js" -o -name "*.ts" -o -name "*.py" -o -name "*.rb" -o -name "*.go" -o -name "*.rs" -o -name "*.java" -o -name "*.php" -o -name "*.cpp" -o -name "*.c" -o -name "*.cs" -o -name "*.swift" -o -name "*.vue" -o -name "*.svelte" -o -name "*.jsx" -o -name "*.tsx" \) 2>/dev/null | head -3 | wc -l)
+  [ "$count" -gt 0 ]
+}
+
+for indicator in "requirements.txt" "Cargo.toml" "go.mod" "Gemfile" "pyproject.toml" "pom.xml" "build.gradle" "composer.json" "mix.exs"; do
+  if [ -f "$indicator" ] && has_real_content "$indicator"; then
+    STRONG_INDICATORS=$((STRONG_INDICATORS + 1))
   fi
 done
 
-# Check for source directories
+if [ -f "package.json" ] && has_real_content "package.json"; then
+  if grep -q '"dependencies"' package.json 2>/dev/null; then
+    STRONG_INDICATORS=$((STRONG_INDICATORS + 1))
+  else
+    WEAK_INDICATORS=$((WEAK_INDICATORS + 1))
+  fi
+fi
+
 for dir in "src" "app" "lib" "server" "client" "api" "pages" "components"; do
-  if [ -d "$dir" ]; then
-    EXISTING_FILES=$((EXISTING_FILES + 1))
+  if [ -d "$dir" ] && dir_has_code "$dir"; then
+    STRONG_INDICATORS=$((STRONG_INDICATORS + 1))
+  elif [ -d "$dir" ]; then
+    WEAK_INDICATORS=$((WEAK_INDICATORS + 1))
   fi
 done
 
-if [ "$EXISTING_FILES" -gt 0 ]; then
+if [ "$STRONG_INDICATORS" -gt 0 ]; then
   IS_BROWNFIELD=true
-  echo "[3/6] Detected BROWNFIELD project ($EXISTING_FILES existing indicators found)"
+  echo "[3/6] Detected BROWNFIELD project ($STRONG_INDICATORS strong indicators found)"
+elif [ "$WEAK_INDICATORS" -gt 1 ]; then
+  IS_BROWNFIELD=true
+  echo "[3/6] Detected BROWNFIELD project (multiple project indicators found)"
+  echo "       NOTE: If this is actually a new project, tell the agent"
+  echo "       \"this is a greenfield project\" and it will adjust."
 else
-  echo "[3/6] Detected GREENFIELD project (no existing project files found)"
+  echo "[3/6] Detected GREENFIELD project (no existing project code found)"
 fi
 
 # ─── Step 4: Handle replit.md ──────────────────────────────────────────────

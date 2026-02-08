@@ -96,6 +96,8 @@ Each installed project includes `update-bmad.sh`. Run `bash update-bmad.sh` to p
 
 ## Recent Changes
 
+- 2026-02-08: Improved brownfield/greenfield detection — no longer triggered by Replit's default scaffolding (empty src/ dirs, bare package.json)
+- 2026-02-08: Completed thorough upstream sync review (Beta.1-Beta.7) — confirmed only 3 content fixes apply; all other changes are CLI/IDE tooling, not methodology content
 - 2026-02-08: Added update mechanism — `update-bmad.sh` pulls latest from GitHub, preserves user configs, reports version changes
 - 2026-02-08: Synced upstream fixes — fixed help task path (7 files), added Party Mode return protocol, removed Claude Code-specific references
 - 2026-02-06: Created install script for brownfield project integration
