@@ -55,7 +55,7 @@ For products, platforms, complex features — structured planning then build:
 3. **"create architecture"** (CA) — Technical decisions and system design
 4. **"create epics"** (CE) — Break work into prioritized stories
 5. **"sprint planning"** (SP) — Plan the implementation order
-6. **Repeat per story:** "create story" (CS) → "dev story" (DS) → "code review" (CR)
+6. **Repeat per story:** "create story" (CS) → "validate story" (VS) → "dev story" (DS) → "code review" (CR)
 
 Every step tells you what's next. Optional phases (brainstorming, research, UX design) are available when you need them.
 
