@@ -77,6 +77,38 @@ Fully read and Analyze the loaded project documents to understand architectural 
   - Offline capability requirements
   - Performance expectations (load times, interaction responsiveness)
 
+### 1.5. Existing Codebase and Environment Analysis (Brownfield Projects)
+
+If the project already has source code (brownfield), gather platform intelligence to inform architectural decisions:
+
+**Database Schema Discovery:**
+- Check if a PostgreSQL database exists (look for DATABASE_URL environment variable)
+- If a database exists, scan the actual schema: list all tables, columns, types, and relationships
+- Document the existing data model — the architecture must account for what's already built
+- Note any schema patterns (naming conventions, audit columns, soft deletes) to maintain consistency
+
+**Existing Integration Inventory:**
+- Check which environment variables and secrets are configured (names only)
+- Identify which external services are already integrated (auth, payment, email, AI, etc.)
+- Check for any Replit integrations that are configured
+- The architecture should leverage existing integrations rather than proposing alternatives
+
+**Codebase Pattern Analysis:**
+- If source code exists, use the platform's deep analysis capability to examine the existing codebase for:
+  - Framework and library choices already committed to
+  - API patterns in use (REST, GraphQL, RPC)
+  - State management approaches
+  - Error handling patterns
+  - Authentication/authorization patterns
+- Run LSP diagnostics on main source files to assess code health (errors, warnings)
+- Search for tech debt markers (TODO, FIXME, HACK) to understand existing debt
+
+**Deployment Configuration:**
+- Check if deployment/publishing is configured and what type (static, autoscale, vm)
+- Note current deployment constraints that may influence architecture
+
+Present brownfield findings alongside document analysis — existing code patterns should be respected unless there's a strong reason to change them.
+
 ### 2. Project Scale Assessment
 
 Calculate and present project complexity:
@@ -145,6 +177,18 @@ Prepare the content to append to the document:
 ### Technical Constraints & Dependencies
 
 {{known_constraints_dependencies}}
+
+### Existing Environment (Brownfield)
+
+{{#if brownfield}}
+**Database:** {{database_status}} {{#if database_exists}}({{table_count}} tables){{/if}}
+**Integrations:** {{existing_integrations}}
+**Deployment:** {{deployment_config}}
+**Code Health:** LSP errors: {{lsp_errors}}, warnings: {{lsp_warnings}}, debt markers: {{debt_count}}
+**Established Patterns:** {{existing_patterns}}
+{{else}}
+Greenfield project — no existing codebase constraints.
+{{/if}}
 
 ### Cross-Cutting Concerns Identified
 
