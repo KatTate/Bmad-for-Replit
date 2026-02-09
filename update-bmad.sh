@@ -126,21 +126,9 @@ fi
 BMAD_MARKER_START="<!-- BMAD-METHOD-START -->"
 BMAD_MARKER_END="<!-- BMAD-METHOD-END -->"
 
-if [ -f "replit.md" ] && grep -q "$BMAD_MARKER_START" replit.md 2>/dev/null && [ -f "_bmad/replit-routing.md" ]; then
-  echo "[7/7] Re-inlining routing table into replit.md..."
+if [ -f "replit.md" ] && [ -f "_bmad/replit-routing.md" ]; then
 
-  # Extract content before BMAD marker
-  sed -n "1,/$BMAD_MARKER_START/{ /$BMAD_MARKER_START/!p }" replit.md > replit.md.tmp
-  # Remove trailing blank lines from preserved content
-  sed -i -e :a -e '/^\n*$/{$d;N;ba' -e '}' replit.md.tmp 2>/dev/null || true
-
-  # Extract content after BMAD end marker (user's own sections like Recent Changes, Preferences)
-  AFTER_CONTENT=""
-  if grep -q "$BMAD_MARKER_END" replit.md 2>/dev/null; then
-    AFTER_CONTENT=$(sed -n "/$BMAD_MARKER_END/,\${ /$BMAD_MARKER_END/!p }" replit.md)
-  fi
-
-  # Detect project type
+  # Detect project type (needed for both paths)
   local_project_type="greenfield"
   for indicator in "requirements.txt" "Cargo.toml" "go.mod" "Gemfile" "pyproject.toml" "pom.xml" "build.gradle" "composer.json" "mix.exs"; do
     if [ -f "$indicator" ]; then
@@ -155,6 +143,33 @@ if [ -f "replit.md" ] && grep -q "$BMAD_MARKER_START" replit.md 2>/dev/null && [
   # Extract current project state values if they exist
   CURRENT_PHASE=$(grep -oP '(?<=\*\*Current Phase:\*\* ).*' replit.md 2>/dev/null || echo "not started")
   COMPLETED_ARTIFACTS=$(grep -oP '(?<=\*\*Completed Artifacts:\*\* ).*' replit.md 2>/dev/null || echo "none yet")
+
+  if grep -q "$BMAD_MARKER_START" replit.md 2>/dev/null; then
+    # --- Path A: Markers exist — replace BMAD section in-place ---
+    echo "[7/7] Re-inlining routing table into replit.md..."
+
+    # Extract content before BMAD marker
+    sed -n "1,/$BMAD_MARKER_START/{ /$BMAD_MARKER_START/!p }" replit.md > replit.md.tmp
+    # Remove trailing blank lines from preserved content
+    sed -i -e :a -e '/^\n*$/{$d;N;ba' -e '}' replit.md.tmp 2>/dev/null || true
+
+    # Extract content after BMAD end marker (user's own sections)
+    AFTER_CONTENT=""
+    if grep -q "$BMAD_MARKER_END" replit.md 2>/dev/null; then
+      AFTER_CONTENT=$(sed -n "/$BMAD_MARKER_END/,\${ /$BMAD_MARKER_END/!p }" replit.md)
+    fi
+  else
+    # --- Path B: No markers (pre-marker install) — put BMAD section first, old content after ---
+    echo "[7/7] Adding marked BMAD section to replit.md (upgrading from pre-marker format)..."
+    echo "       Your existing replit.md content will be preserved after the BMAD section."
+    echo "       You may want to review and clean up any old routing tables or config blocks."
+
+    # Start fresh — BMAD section goes first, old content goes after the end marker
+    echo -n "" > replit.md.tmp
+
+    # Save old content to append after the BMAD section
+    AFTER_CONTENT=$(cat replit.md)
+  fi
 
   # Generate fresh BMAD section with inlined routing
   {
