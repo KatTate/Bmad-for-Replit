@@ -52,17 +52,22 @@ For each user message:
 - Conversation context and previous agent contributions
 - User's specific agent mentions or requests
 
-**Agent Selection Logic:**
+**Agent Selection Logic — Quality First:**
 
-- **Primary Agent**: Best expertise match for core topic
-- **Secondary Agent**: Complementary perspective or alternative approach
-- **Tertiary Agent** (optional): Cross-domain insight or devil's advocate, if beneficial
+Select **every agent whose expertise is genuinely relevant** to the topic. Do not artificially limit the count. The goal is comprehensive, high-quality perspectives — not speed or cost savings.
+
+- Analyze which domains the topic touches (technical, business, UX, process, testing, documentation, etc.)
+- Include every agent that has a meaningful perspective to contribute
+- A simple, single-domain question might only need 1-2 agents
+- A cross-cutting strategic decision might need 5-6 or even all agents
+- When in doubt, include the agent — a PASS in Round 2 costs little, but a missing perspective costs a lot
 
 **Priority Rules:**
 
-- If user names a specific agent → Prioritize that agent + 1-2 complementary agents
-- Rotate agent participation over time to ensure inclusive discussion
-- Balance expertise domains for comprehensive perspectives
+- If user names a specific agent → That agent is mandatory, plus all others with relevant expertise
+- If user says "everyone" or "all agents" → Include the full roster
+- Rotate participation naturally — agents who haven't spoken recently get slight priority when relevance is equal
+- Always include at least one agent who might challenge the prevailing view (devil's advocate)
 
 ### 2. Round 1 — Independent Perspectives (Parallel Sub-Agents)
 
@@ -238,14 +243,14 @@ If a sub-agent call fails, times out, or returns an empty response:
 
 ---
 
-## COST AND LATENCY AWARENESS
+## QUALITY OVER ECONOMY
 
-Sub-Agent mode uses more compute than Classic mode. To keep it efficient:
+Sub-Agent mode exists because quality matters more than speed. Follow these principles:
 
-- Default to **2 agents** per round unless the topic clearly benefits from 3
-- Skip Round 2 cross-talk if Round 1 responses are already well-aligned and complementary (no tension to explore)
-- Keep conversation context summaries concise
-- If the user asks a simple factual question, consider having just 1 agent respond
+- **Include every relevant voice** — do not cap agent count artificially. If 5 agents have something meaningful to say, spawn 5.
+- **Always run Round 2 cross-talk** unless every single agent responds with `[PASS]`. Cross-talk is where the real value emerges.
+- Keep conversation context summaries concise so each agent has maximum room for reasoning
+- For a simple factual question that only touches one domain, 1 agent is fine — but that's a natural outcome of relevance analysis, not a cost rule
 
 ---
 
@@ -267,7 +272,7 @@ Sub-Agent mode uses more compute than Classic mode. To keep it efficient:
 ❌ Losing conversation context between rounds
 ❌ Not rotating agent participation over time
 ❌ Ignoring user questions or exit triggers
-❌ Spawning too many agents when 2 would suffice (cost waste)
+❌ Artificially limiting agent count when more perspectives would improve quality
 
 ---
 
