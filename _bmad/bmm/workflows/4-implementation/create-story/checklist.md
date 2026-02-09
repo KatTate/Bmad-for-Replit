@@ -57,6 +57,7 @@ _Skip this section ONLY if the story's "As a..." role is explicitly a developer 
 - [ ] **UI/UX Deliverables section present**: Dev Notes include a "UI/UX Deliverables" section listing the screens, pages, or components the user will interact with
 - [ ] **Frontend files in File Change Summary**: The File Change Summary includes frontend/UI files (pages, components, forms) — not just server files
 - [ ] **UI states covered**: Error states, loading states, empty states, and success states are described in ACs or Dev Notes
+- [ ] **Navigation documented**: How the user reaches this feature (menu item, link, route) is specified in ACs or Dev Notes
 
 ## Overall Quality Bar
 
