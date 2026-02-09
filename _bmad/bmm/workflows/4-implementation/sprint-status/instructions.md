@@ -93,7 +93,7 @@ Enter corrections (e.g., "1=in-progress, 2=backlog") or "skip" to continue witho
   <action>Analyze recent git commit history to correlate with sprint progress.
     Run: `git log --oneline -50` to get recent commit history.
     For each in-progress or review story, search commits for references to that story key.
-    Run: `git log --oneline --all | grep -i "{{story_key}}"` for each active story.
+    Run: `git log --oneline --all | grep -Fi "{{story_key}}"` for each active story (using -F for fixed-string matching to handle special characters in story keys).
     Note which stories have recent commits and which appear stalled (no commits).
   </action>
 

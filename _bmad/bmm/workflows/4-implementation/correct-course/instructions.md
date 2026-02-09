@@ -9,6 +9,11 @@
 
 <workflow>
 
+<step n="0.5" goal="Discover and load project documents">
+  <invoke-protocol name="discover_inputs" />
+  <note>After discovery, these content variables are available: {prd_content}, {epics_content}, {architecture_content}, {ux_design_content}, {tech_spec_content}, {document_project_content}</note>
+</step>
+
 <step n="1" goal="Initialize Change Navigation">
   <action>Confirm change trigger and gather user description of the issue</action>
   <action>Ask: "What specific issue or change has been identified that requires navigation?"</action>
@@ -27,7 +32,7 @@
 <action if="core documents are unavailable">HALT: "Need access to project documents (PRD, Epics, Architecture, UI/UX) to assess change impact. Please ensure these documents are accessible."</action>
 </step>
 
-<step n="1.5" goal="Platform intelligence — understand what's actually been built">
+<step n="2" goal="Platform intelligence — understand what's actually been built">
   <!-- Git History Analysis — What's Actually Been Implemented -->
   <action>Analyze git commit history to understand the current state of implementation.
     Run: `git log --oneline -50` to see recent development activity.
@@ -45,7 +50,7 @@
   <action>Assess current codebase health before proposing changes.
     Run LSP diagnostics on the project's main source files.
     Count errors and warnings to understand if the codebase is stable or already degraded.
-    Search for tech debt markers (TODO, FIXME, HACK, WORKAROUND) — case-insensitive, excluding node_modules, .git, build/dist.
+    Search for tech debt markers: grep -ri "TODO\|FIXME\|HACK\|WORKAROUND" --include="*.ts" --include="*.js" --include="*.py" --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=dist | wc -l
     A degraded codebase may influence whether to patch forward or roll back.
   </action>
 
@@ -66,12 +71,7 @@
   </action>
 </step>
 
-<step n="0.5" goal="Discover and load project documents">
-  <invoke-protocol name="discover_inputs" />
-  <note>After discovery, these content variables are available: {prd_content}, {epics_content}, {architecture_content}, {ux_design_content}, {tech_spec_content}, {document_project_content}</note>
-</step>
-
-<step n="2" goal="Execute Change Analysis Checklist">
+<step n="3" goal="Execute Change Analysis Checklist">
   <action>Read fully and follow the systematic analysis from: {checklist}</action>
   <action>Work through each checklist section interactively with the user</action>
   <action>Record status for each checklist item:</action>
@@ -84,7 +84,7 @@
 <action if="checklist cannot be completed">Identify blocking issues and work with user to resolve before continuing</action>
 </step>
 
-<step n="3" goal="Draft Specific Change Proposals">
+<step n="4" goal="Draft Specific Change Proposals">
 <action>Based on checklist findings, create explicit edit proposals for each identified artifact</action>
 
 <action>For Story changes:</action>
@@ -136,7 +136,7 @@
 
 </step>
 
-<step n="4" goal="Generate Sprint Change Proposal">
+<step n="5" goal="Generate Sprint Change Proposal">
 <action>Compile comprehensive Sprint Change Proposal document with following sections:</action>
 
 <action>Section 1: Issue Summary</action>
@@ -156,7 +156,7 @@
 
 - Present chosen path forward from checklist evaluation:
   - Direct Adjustment: Modify/add stories within existing plan
-  - Potential Rollback: Revert completed work to simplify resolution (include specific rollback points identified in Step 1.5)
+  - Potential Rollback: Revert completed work to simplify resolution (include specific rollback points identified in Step 2)
   - MVP Review: Reduce scope or modify goals
 - Provide clear rationale for recommendation
 - Include risk assessment and scope impact
@@ -182,15 +182,15 @@
 <ask>Review complete proposal. Continue [c] or Edit [e]?</ask>
 </step>
 
-<step n="5" goal="Finalize and Route for Implementation">
+<step n="6" goal="Finalize and Route for Implementation">
 <action>Get explicit user approval for complete proposal</action>
 <ask>Do you approve this Sprint Change Proposal for implementation? (yes/no/revise)</ask>
 
 <check if="no or revise">
   <action>Gather specific feedback on what needs adjustment</action>
   <action>Return to appropriate step to address concerns</action>
-  <goto step="3">If changes needed to edit proposals</goto>
-  <goto step="4">If changes needed to overall proposal structure</goto>
+  <goto step="4">If changes needed to edit proposals</goto>
+  <goto step="5">If changes needed to overall proposal structure</goto>
 
 </check>
 
@@ -226,7 +226,7 @@
 
 </step>
 
-<step n="6" goal="Workflow Completion">
+<step n="7" goal="Workflow Completion">
 <action>Summarize workflow execution:</action>
   - Issue addressed: {{change_trigger}}
   - Change scope: {{scope_classification}}
