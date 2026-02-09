@@ -1,0 +1,91 @@
+John (Product Manager): Alright, I've done the deep dive into the Create Story workflow. Here's the root cause analysis — and it's not one single failure, it's a chain of gaps.
+
+The Root Cause Chain
+Gap 1: The Epics File Itself (the source data)
+Look at how Story 1.2 is written in epics.md (line 326-332):
+
+When I submit POST /api/invitations with email, role, and brand_id
+Then a new invitation is created...
+
+The acceptance criteria in the epics file are already API-only. There's zero mention of a UI page, form, or table. The Create Story workflow pulls its acceptance criteria from the epics file, so it was working from backend-only source material.
+
+Story 1.1 is similarly developer-focused — "database schema is pushed" and "Drizzle schemas are exported" — with a passing mention of Google OAuth but no UI specifics.
+
+Story 1.3 is slightly better because it says "visit the invitation URL" which at least implies a page.
+
+The fix: The epics file needs a quality gate that checks whether user-facing stories have UI acceptance criteria, not just API behavior.
+
+Gap 2: The Create Story Instructions (instructions.xml)
+The Create Story workflow at Step 2 (line 109-147) says to extract from artifacts:
+
+- Epic objectives and business value
+- ALL stories in this epic for cross-story awareness
+- Our specific story's user story statement, acceptance criteria, technical requirements
+- Dependencies on other stories/epics
+And from architecture:
+
+- Technical stack with versions
+- Code structure and naming conventions
+- API patterns, database schemas, security requirements
+What's conspicuously missing: There's no instruction to extract UX/UI requirements. The workflow config (workflow.yaml line 27) references ux_file: "{planning_artifacts}/*ux*.md" as an input, but the instructions.xml never tells the agent to extract UI specifications from it. The UX file is loaded but never analyzed for story-specific frontend requirements.
+
+Step 4 (line 158-206) where the story is actually written also has no guidance about ensuring frontend/UI acceptance criteria are included. It says to write "acceptance criteria that are specific and testable" and provides guidance on file paths in ACs, but never prompts the agent to consider what the user actually sees and interacts with.
+
+Gap 3: The Checklist (checklist.md) Doesn't Catch It
+The validation checklist at line 16-19 says:
+
+- [ ] Specific and testable: Each AC describes a verifiable outcome
+- [ ] Complete coverage: ACs cover all requirements for this story from the epics file
+The problem: "Complete coverage from the epics file" — if the epics file itself is missing UI criteria, the checklist passes because it's validating against incomplete source material. There's no checklist item that asks "Does this story include frontend/UI acceptance criteria if it's a user-facing feature?"
+
+Gap 4: The Template (template.md) Doesn't Prompt For It
+The story template has sections for "Architecture Patterns to Follow," "Anti-Patterns," "Gotchas," and "File Change Summary" — all backend-leaning categories. There's no section or prompt for "Frontend/UI Requirements" that would force the story author to think about what pages, components, or interactions need to be built.
+
+Winston (Architect): John's analysis is solid. I want to add one architectural observation: the workflow.yaml actually loads the UX design spec as an input (line 27: ux_file), and the discover_inputs protocol makes {ux_content} available. But the instructions never say "extract UI/UX requirements for this story from {ux_content}." The data is there — the instructions just never tell the agent to use it for story-level UI requirements.
+
+Sally (UX Designer): This is exactly the pattern I've seen in a hundred products. The workflow treats UX as an afterthought input rather than a first-class requirement source. The fix needs to be at every layer:
+
+Epics level — stories need UI criteria baked in from the start
+Create Story instructions — explicit step to extract UI requirements from the UX spec
+Checklist — a validation item that asks "Does this user-facing story specify what the user sees?"
+Template — a dedicated section for frontend/UI deliverables
+Bob (Scrum Master): Let me be crisp about exactly what needs updating in each file:
+
+File: _bmad/bmm/workflows/4-implementation/create-story/instructions.xml
+Step 2 — Add an action to extract UX/UI requirements:
+
+<action>From {ux_content}, extract UI/UX requirements relevant to this story:
+  - Screens, pages, or components the user interacts with
+  - Form fields, validation rules, and error states
+  - Navigation flows and page transitions
+  - Loading states, empty states, and error displays
+  - Role-based UI visibility rules
+</action>
+Step 4 — Add guidance to write UI-specific acceptance criteria:
+
+<action>For user-facing stories (role is NOT "developer"), ensure acceptance criteria include:
+  - What UI page/component the user sees
+  - What form fields or interactive elements are present
+  - What happens visually on success, error, and loading states
+  - How the user navigates to this feature
+  - If no UI is needed, explicitly state "This story is backend-only" with justification
+</action>
+File: _bmad/bmm/workflows/4-implementation/create-story/checklist.md
+Add a new section:
+
+## Frontend / UI Coverage (User-Facing Stories)
+- [ ] **UI specified for user-facing stories**: If the story's "As a..." role is an end user (not "developer"), the ACs describe what the user sees and interacts with
+- [ ] **Navigation specified**: How the user reaches this feature is documented
+- [ ] **Error/loading states**: Visual feedback for async operations is specified
+- [ ] **File Change Summary includes frontend**: Client-side files (pages, components) are listed if UI work is required
+- [ ] **Backend-only justified**: If a user-facing story has no UI criteria, an explicit justification is provided
+File: _bmad/bmm/workflows/4-implementation/create-story/template.md
+Add a section in Dev Notes:
+
+### Frontend / UI Requirements
+- [Pages or components to create/modify]
+- [Navigation and routing changes]
+- [Key UI states: loading, error, empty, success]
+John (Product Manager): Bob's got the right changes. But I want to emphasize — the deepest root cause is in the epics file. Even if we fix the Create Story workflow, the stories being fed into it from epics.md are API-first. The long-term fix for future epics is to update the Create Epics and Stories workflow (_bmad/bmm/workflows/3-solutioning/create-epics-and-stories/) to ensure that when writing acceptance criteria for user-facing stories, UI behavior is included alongside API behavior.
+
+That said, fixing the Create Story workflow is the right immediate action — it's the last quality gate before dev work begins, so it should catch and fill in UI gaps even when the epics are incomplete.
