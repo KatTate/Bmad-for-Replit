@@ -96,6 +96,7 @@ Each installed project includes `update-bmad.sh`. Run `bash update-bmad.sh` to p
 
 ## Recent Changes
 
+- 2026-02-09: Updated Code Review (CR) workflow to align with new story format — reviews verify against acceptance criteria and dev notes constraints instead of Tasks/Subtasks checkboxes, findings go to "Code Review Notes" section, removed forced minimum issue quota
 - 2026-02-08: Adapted Create Story (CS) and Dev Story (DS) workflows for Replit Agent — stories are now intent-and-constraint context documents (not implementation scripts), dev workflow lets agent plan its own approach, dropped universal TDD mandate, uses platform's architect tool for review
 - 2026-02-08: Added Replit preview instructions to UX Design workflow steps 8 and 9 for HTML visualizer files
 - 2026-02-08: Added explanatory comment to tool-manifest.csv for Replit context
