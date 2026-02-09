@@ -150,9 +150,9 @@ _bmad-output/             # Generated artifacts go here
 
 ## Configuration
 
-- **User config:** `_bmad/core/config.yaml` (user name, language)
-- **Project config:** `_bmad/bmm/config.yaml` (project name, skill level, output paths)
+- **BMAD config:** `_bmad/bmm/config.yaml` (skill level, output paths — BMAD-specific settings only)
 - **Help catalog:** `_bmad/_config/bmad-help.csv` (phase-sequenced workflow guide)
+- **Platform values:** User name, project name, and language are resolved automatically from Replit environment ($REPLIT_USER, $REPL_SLUG, $LANG)
 
 **IMPORTANT:** Do NOT embed the contents of BMad config files (config.yaml, etc.) into this replit.md. Only reference them by file path above. Read them from disk when needed.
 <!-- BMAD-METHOD-END -->

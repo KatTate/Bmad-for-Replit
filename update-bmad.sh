@@ -44,14 +44,9 @@ echo "[2/7] Backing up your configuration..."
 BACKUP_DIR="/tmp/bmad-config-backup-$$"
 mkdir -p "$BACKUP_DIR"
 
-if [ -f "_bmad/core/config.yaml" ]; then
-  cp "_bmad/core/config.yaml" "$BACKUP_DIR/core-config.yaml"
-  echo "       Saved core config (user name, language)"
-fi
-
 if [ -f "_bmad/bmm/config.yaml" ]; then
   cp "_bmad/bmm/config.yaml" "$BACKUP_DIR/bmm-config.yaml"
-  echo "       Saved project config (project name, settings)"
+  echo "       Saved BMAD config (skill level, output paths)"
 fi
 
 # --- Step 3: Download latest from GitHub ---
@@ -99,14 +94,9 @@ echo "       Toolkit files replaced"
 # --- Step 5: Restore user configuration ---
 echo "[5/7] Restoring your configuration..."
 
-if [ -f "$BACKUP_DIR/core-config.yaml" ]; then
-  cp "$BACKUP_DIR/core-config.yaml" "_bmad/core/config.yaml"
-  echo "       Restored core config"
-fi
-
 if [ -f "$BACKUP_DIR/bmm-config.yaml" ]; then
   cp "$BACKUP_DIR/bmm-config.yaml" "_bmad/bmm/config.yaml"
-  echo "       Restored project config"
+  echo "       Restored BMAD config"
 fi
 
 # --- Step 6: Update support files ---
@@ -222,9 +212,9 @@ if [ -f "replit.md" ] && grep -q "$BMAD_MARKER_START" replit.md 2>/dev/null && [
     echo ""
     echo "## BMad Configuration"
     echo ""
-    echo '- **User config:** `_bmad/core/config.yaml` (user name, language)'
-    echo '- **Project config:** `_bmad/bmm/config.yaml` (project name, skill level, output paths)'
+    echo '- **BMAD config:** `_bmad/bmm/config.yaml` (skill level, output paths — BMAD-specific settings only)'
     echo '- **Help catalog:** `_bmad/_config/bmad-help.csv` (phase-sequenced workflow guide)'
+    echo '- **Platform values:** User name, project name, and language are resolved automatically from Replit environment ($REPLIT_USER, $REPL_SLUG, $LANG)'
     echo ""
     echo '**IMPORTANT:** Do NOT embed the contents of BMad config files (config.yaml, etc.) into this replit.md. Only reference them by file path above. Read them from disk when needed.'
     echo "$BMAD_MARKER_END"
