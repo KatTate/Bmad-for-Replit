@@ -96,6 +96,9 @@ Each installed project includes `update-bmad.sh`. Run `bash update-bmad.sh` to p
 
 ## Recent Changes
 
+- 2026-02-08: Adapted Create Story (CS) and Dev Story (DS) workflows for Replit Agent — stories are now intent-and-constraint context documents (not implementation scripts), dev workflow lets agent plan its own approach, dropped universal TDD mandate, uses platform's architect tool for review
+- 2026-02-08: Added Replit preview instructions to UX Design workflow steps 8 and 9 for HTML visualizer files
+- 2026-02-08: Added explanatory comment to tool-manifest.csv for Replit context
 - 2026-02-08: Improved brownfield/greenfield detection — no longer triggered by Replit's default scaffolding (empty src/ dirs, bare package.json)
 - 2026-02-08: Completed thorough upstream sync review (Beta.1-Beta.7) — confirmed only 3 content fixes apply; all other changes are CLI/IDE tooling, not methodology content
 - 2026-02-08: Added update mechanism — `update-bmad.sh` pulls latest from GitHub, preserves user configs, reports version changes
