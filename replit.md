@@ -58,13 +58,16 @@ When the user's message matches a BMAD trigger phrase, agent name, or workflow c
 ## File Structure
 
 ```
+BMAD-README.md            # Complete guide to using BMad in Replit
+
 _bmad/                    # BMad Method toolkit
+├── README.md             # Source copy of BMAD-README.md (distributed on install/update)
 ├── core/                 # Core engine (workflow executor, help, brainstorming)
 │   ├── agents/           # BMad Master agent
 │   ├── tasks/            # Help, workflow engine, editorial tasks
 │   └── workflows/        # Brainstorming, party mode, elicitation
 ├── bmm/                  # BMad Methodology Module
-│   ├── agents/           # 9 specialist agent personas
+│   ├── agents/           # 10 specialist agent personas
 │   ├── workflows/        # All phase workflows (analysis → implementation)
 │   ├── data/             # Templates and context files
 │   └── teams/            # Team configurations for party mode
@@ -96,6 +99,7 @@ Each installed project includes `update-bmad.sh`. Run `bash update-bmad.sh` to p
 
 ## Recent Changes
 
+- 2026-02-09: Added BMAD-README.md — comprehensive Replit-specific guide covering all agents, workflows, story cycle, quick flow, and anytime tools; distributed via install and update scripts
 - 2026-02-09: Completed implementation execution layer adaptation — dev agent persona, Quick Dev workflow (steps 3-6), Quick Spec (step 3 + template) all shifted from checkbox task scripts to AC-driven approach with architectural guidance; platform review tools replace custom adversarial review invocations
 - 2026-02-09: Updated Code Review (CR) workflow to align with new story format — reviews verify against acceptance criteria and dev notes constraints instead of Tasks/Subtasks checkboxes, findings go to "Code Review Notes" section, removed forced minimum issue quota
 - 2026-02-08: Adapted Create Story (CS) and Dev Story (DS) workflows for Replit Agent — stories are now intent-and-constraint context documents (not implementation scripts), dev workflow lets agent plan its own approach, dropped universal TDD mandate, uses platform's architect tool for review

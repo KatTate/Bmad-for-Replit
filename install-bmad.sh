@@ -253,9 +253,18 @@ else
   echo "[5/6] Update script not found — you can download it from the BMad repo"
 fi
 
-# ─── Step 6: Summary ──────────────────────────────────────────────────────
+# ─── Step 6: Copy README ──────────────────────────────────────────────────
+if [ -f "_bmad/README.md" ]; then
+  cp "_bmad/README.md" "BMAD-README.md"
+  echo "[6/6] Copied BMAD-README.md (complete guide to using BMad in Replit)"
+else
+  echo "[6/6] README not found in toolkit — skipping"
+fi
 
-echo "[6/6] Installation complete!"
+# ─── Summary ──────────────────────────────────────────────────────────────
+
+echo ""
+echo "Installation complete!"
 echo ""
 echo "=========================================="
 echo " BMad Method installed successfully!"
