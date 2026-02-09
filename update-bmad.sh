@@ -225,6 +225,8 @@ if [ -f "replit.md" ] && grep -q "$BMAD_MARKER_START" replit.md 2>/dev/null && [
     echo '- **User config:** `_bmad/core/config.yaml` (user name, language)'
     echo '- **Project config:** `_bmad/bmm/config.yaml` (project name, skill level, output paths)'
     echo '- **Help catalog:** `_bmad/_config/bmad-help.csv` (phase-sequenced workflow guide)'
+    echo ""
+    echo '**IMPORTANT:** Do NOT embed the contents of BMad config files (config.yaml, etc.) into this replit.md. Only reference them by file path above. Read them from disk when needed.'
     echo "$BMAD_MARKER_END"
   } >> replit.md.tmp
 
