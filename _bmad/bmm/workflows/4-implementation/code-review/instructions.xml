@@ -201,9 +201,12 @@
       **Review Notes Added:** {{action_count}}
 
       {{#if new_status == "done"}}
-      Story is done! Say "create story" to start the next one, or "what's next?" for guidance.
+      **Recommended Next Steps:**
+      1. Say **"party mode"** for a multi-agent review of the code review findings (recommended for critical epics)
+      2. When satisfied, say **"create story"** to start the next one, or **"what's next?"** for guidance
       {{else}}
-      Say "dev story" to address the review findings and continue implementation.
+      Say **"dev story"** to address the review findings and continue implementation.
+      After fixes, run **"code review"** again to verify.
       {{/if}}
     </output>
   </step>

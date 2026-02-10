@@ -204,10 +204,10 @@
     </action>
 
     <output>
-      **Next Steps:**
-      1. Review the implementation
-      2. Say "code review" for a thorough review by a different perspective
-      3. When satisfied, the story is ready for the next one
+      **Recommended Next Steps:**
+      1. Say **"code review"** for a thorough adversarial review of the implementation
+      2. After code review, say **"party mode"** for a multi-agent review of the findings (recommended for critical epics)
+      3. When satisfied, say **"create story"** to start the next one
     </output>
 
     <check if="{{sprint_status}} file exists">

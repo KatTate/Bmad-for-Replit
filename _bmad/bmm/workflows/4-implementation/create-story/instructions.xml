@@ -262,10 +262,10 @@
       - File: {{story_file}}
       - Status: ready-for-dev
 
-      **Next Steps:**
+      **Recommended Next Steps:**
       1. Review the story in {{story_file}}
-      2. Say "dev story" to begin implementation
-      3. Say "code review" when implementation is complete
+      2. Say **"party mode"** for a multi-agent review of the story before implementation (recommended for critical epics)
+      3. Say **"dev story"** to begin implementation
 
       **The dev agent now has everything needed for implementation.**
     </output>
