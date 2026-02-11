@@ -1,4 +1,4 @@
-# Technical Research Step 4: Implementation Research
+# Technical Research Step 5: Implementation Research
 
 ## MANDATORY EXECUTION RULES (READ FIRST):
 
@@ -15,8 +15,8 @@
 ## EXECUTION PROTOCOLS:
 
 - 🎯 Show web search analysis before presenting findings
-- ⚠️ Present [C] complete option after implementation research content generation
-- 💾 ONLY save when user chooses C (Complete)
+- ⚠️ Present [C] continue option after implementation research content generation
+- 💾 ONLY save when user chooses C (Continue)
 - 📖 Update frontmatter `stepsCompleted: [1, 2, 3, 4, 5]` before loading next step
 - 🚫 FORBIDDEN to complete workflow until C is selected
 
