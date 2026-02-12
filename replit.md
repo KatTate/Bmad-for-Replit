@@ -1,17 +1,68 @@
-# BMad Method v6.0.0-Beta.8 — Replit Agent Configuration
+<!-- PROTECTION NOTE FOR REPLIT AGENT: The content between BMAD-METHOD-START and BMAD-METHOD-END markers is part of the BMad Method framework and MUST NOT be modified, overwritten, or removed during any replit.md updates. When updating this file, only modify the "Project Documentation" section AFTER the BMAD-METHOD-END marker. Always preserve both sections intact. -->
 
-## Overview
+<!-- BMAD-METHOD-START -->
+# BMad Method v6.0.0-Beta.8 — Agent Configuration
+
+## IMPORTANT: How You Must Operate in This Project
+
+This is a **BMad Method** project. You MUST follow these rules in every conversation:
+
+1. **Check every user message against the routing tables below.** Trigger phrases are not exact-match-only — use intent matching. If the user's message contains or implies a trigger phrase, activate that route. Example: "should we do sprint planning for Epic 2?" contains the intent "sprint planning" and MUST activate the SP workflow with the Scrum Master persona.
+2. **When a route matches, load the referenced file and follow it.** Do not answer the question in your own words. Load the workflow or agent file and execute it.
+3. **For workflows:** First load `_bmad/core/tasks/workflow.xml` (the execution engine), then load the matched workflow file. Execute ALL steps IN ORDER. When a step says WAIT for user input, STOP and WAIT.
+4. **For agents:** Load the agent file, adopt that persona completely, and present the agent's menu.
+5. **Never skip, summarize, or improvise** workflow steps. Never auto-proceed past WAIT points.
+6. **If no route matches,** respond normally but remain aware that this is a BMAD project. If the user seems to be asking about project planning, development, or process, suggest the relevant BMAD workflow.
+7. **If unsure whether a route matches,** ask: "Would you like me to run the [workflow name] workflow for that?"
+
+## BMad File Structure
+
+```
+_bmad/                    # BMad Method toolkit
+├── core/                 # Core engine (workflow executor, help, brainstorming)
+│   ├── agents/           # BMad Master agent
+│   ├── tasks/            # Help, workflow engine, editorial tasks
+│   └── workflows/        # Brainstorming, party mode, elicitation
+├── bmm/                  # BMad Methodology Module
+│   ├── agents/           # 9 specialist agent personas
+│   ├── workflows/        # All phase workflows (analysis → implementation)
+│   ├── data/             # Templates and context files
+│   └── teams/            # Team configurations for party mode
+├── _config/              # Manifests, help catalog, customization
+├── _memory/              # Agent memory (tech writer standards)
+└── replit-routing.md     # Routing source (auto-inlined into replit.md on install)
+
+_bmad-output/             # Generated artifacts go here
+├── planning-artifacts/   # Briefs, PRDs, architecture, UX docs
+└── implementation-artifacts/  # Sprint plans, stories, reviews
+```
+
+## BMad Configuration
+
+- **BMAD config:** `_bmad/bmm/config.yaml` (skill level, output paths — BMAD-specific settings only)
+- **Help catalog:** `_bmad/_config/bmad-help.csv` (phase-sequenced workflow guide)
+- **Platform values:** User name, project name, and language are resolved automatically from Replit environment ($REPLIT_USER, $REPL_SLUG, $LANG)
+
+**IMPORTANT:** Do NOT embed the contents of BMad config files (config.yaml, etc.) into this replit.md. Only reference them by file path above. Read them from disk when needed.
+<!-- BMAD-METHOD-END -->
+
+## Project Documentation
+
+> This section is safe for the Replit agent to update. Add project-specific information below.
+
+### Overview
 
 The BMad Method project provides a comprehensive framework for software development, leveraging a structured, agent-driven approach within the Replit environment. It aims to guide users through the entire software development lifecycle, from initial analysis and planning to implementation and quality assurance, using a suite of specialized AI agents and predefined workflows. The core purpose is to streamline project management, enhance collaboration, and accelerate development by automating routine tasks and providing expert guidance at each stage. It integrates platform intelligence from Replit to provide context-aware assistance.
 
-## User Preferences
+### User Preferences
 
 - QA workflow runs per epic completion (not per story) after retrospective, since tests cover full feature scope
 - 3-session-per-story workflow cycle: Session 1 (Create Story + party mode review), Session 2 (Dev Story implementation), Session 3 (Code Review + Party Mode + Fix + Close)
 - Prefers accessible terminology over technical jargon (e.g., "established projects" over "brownfield")
 
-## Recent Changes (Beta.8-replit.3)
+### Recent Changes (Beta.8-replit.4)
 
+- **replit.md protection**: Added BMAD-METHOD-START/END markers with protective HTML comment to prevent Replit agent from overwriting BMad configuration during project updates
 - **Session management guidance**: Added fresh chat prompts to Create Story, Dev Story, and Code Review workflows at optimal session boundaries
 - **workflow_path removal**: Replaced forbidden `workflow_path` variable with `installed_path` across 20 step files (quick-spec, quick-dev, create-epics-and-stories, check-implementation-readiness)
 - **Technical research routing fix**: step-05 now correctly routes to step-06 with proper stepsCompleted values [1,2,3,4,5,6]
@@ -19,7 +70,7 @@ The BMad Method project provides a comprehensive framework for software developm
 - **Terminology accessibility**: Renamed "brownfield" to "established project(s)" across user-facing text (routing, CSVs, templates, workflow steps) while preserving internal identifiers
 - **QA workflow naming**: Standardized workflow file headers from "Quinn" to "QA" for consistency with agent id pattern
 
-## System Architecture
+### System Architecture
 
 The BMad Method operates on a modular architecture centered around specialized AI agents and predefined workflows.
 
@@ -29,18 +80,11 @@ The BMad Method operates on a modular architecture centered around specialized A
 - **Intent-Based Routing:** User commands are matched against a comprehensive routing table using intent recognition to activate specific agents or workflows. This allows for natural language interaction.
 - **Execution Protocol:** Workflows are executed by a core engine (`_bmad/core/tasks/workflow.xml`), ensuring all steps are followed in order, with explicit wait points for user interaction.
 - **Configuration Management:** Project-specific settings and agent behaviors are managed through `_bmad/bmm/config.yaml`, while help documentation is cataloged in `_bmad/_config/bmad-help.csv`.
-- **UI/UX Decisions:** The system provides structured interactions, presenting agent menus and workflow steps clearly. UX Design workflows are integrated to guide the creation of user interfaces, including Replit preview instructions.
-- **Platform Intelligence Integration:** Leverages Replit environment variables (`$REPLIT_USER`, `$REPL_SLUG`, `$LANG`) to personalize interactions and gather project context. This intelligence is integrated across multiple workflows, including retrospectives.
-- **Output Management:** Generated artifacts (e.g., briefs, PRDs, architecture documents, sprint plans, code reviews) are systematically stored in the `_bmad-output/` directory, separated into `planning-artifacts/` and `implementation-artifacts/`.
+- **Platform Intelligence Integration:** Leverages Replit environment variables (`$REPLIT_USER`, `$REPL_SLUG`, `$LANG`) to personalize interactions and gather project context.
+- **Output Management:** Generated artifacts are systematically stored in the `_bmad-output/` directory, separated into `planning-artifacts/` and `implementation-artifacts/`.
 - **Session Management:** Fresh chat boundaries are recommended at natural workflow breakpoints (after story creation and after implementation) to optimize agent context and performance.
 
-**File Structure Overview:**
-- `_bmad/`: Contains the core BMad engine, BMad Methodology Module (BMM) with agents and workflows, configuration files, and agent memory.
-- `_bmad-output/`: Stores all generated project artifacts.
-
-## External Dependencies
-
-The BMad Method primarily operates within the Replit environment and relies on its integrated functionalities.
+### External Dependencies
 
 - **Replit Platform:** Core execution environment, providing `$REPLIT_USER`, `$REPL_SLUG`, and `$LANG` environment variables for platform intelligence and context.
 - **GitHub:** Used as the source repository for BMad updates (`KatTate/Bmad-for-Replit`) via the `update-bmad.sh` script.

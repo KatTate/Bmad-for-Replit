@@ -175,6 +175,8 @@ if [ -f "replit.md" ] && [ -f "_bmad/replit-routing.md" ]; then
   {
     echo ""
     echo ""
+    echo '<!-- PROTECTION NOTE FOR REPLIT AGENT: The content between BMAD-METHOD-START and BMAD-METHOD-END markers is part of the BMad Method framework and MUST NOT be modified, overwritten, or removed during any replit.md updates. When updating this file, only modify the "Project Documentation" section AFTER the BMAD-METHOD-END marker. Always preserve both sections intact. -->'
+    echo ""
     echo "$BMAD_MARKER_START"
     echo "# BMad Method v${NEW_VERSION} -- Agent Configuration"
     echo ""
@@ -192,12 +194,6 @@ if [ -f "replit.md" ] && [ -f "_bmad/replit-routing.md" ]; then
     echo ""
     # Inline full routing table from source file
     sed -n '/^## Agent Routing/,$p' "_bmad/replit-routing.md"
-    echo ""
-    echo "## Project State"
-    echo ""
-    echo "- **Current Phase:** $CURRENT_PHASE"
-    echo "- **Project Type:** $local_project_type"
-    echo "- **Completed Artifacts:** $COMPLETED_ARTIFACTS"
     echo ""
     echo "## BMad File Structure"
     echo ""
@@ -233,7 +229,23 @@ if [ -f "replit.md" ] && [ -f "_bmad/replit-routing.md" ]; then
 
   # Append preserved content after the BMAD section
   if [ -n "$AFTER_CONTENT" ]; then
+    # Existing Project Documentation section — preserve it as-is
     echo "$AFTER_CONTENT" >> replit.md.tmp
+  else
+    # No existing content after markers — generate fresh Project Documentation section
+    {
+      echo ""
+      echo "## Project Documentation"
+      echo ""
+      echo "> This section is safe for the Replit agent to update. Add project-specific information below."
+      echo ""
+      echo "### Project State"
+      echo ""
+      echo "- **Current Phase:** $CURRENT_PHASE"
+      echo "- **Project Type:** $local_project_type"
+      echo "- **Completed Artifacts:** $COMPLETED_ARTIFACTS"
+      echo ""
+    } >> replit.md.tmp
   fi
 
   mv replit.md.tmp replit.md

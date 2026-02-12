@@ -103,8 +103,10 @@ generate_bmad_section() {
   fi
 
   cat << 'BMAD_SECTION_START'
+<!-- PROTECTION NOTE FOR REPLIT AGENT: The content between BMAD-METHOD-START and BMAD-METHOD-END markers is part of the BMad Method framework and MUST NOT be modified, overwritten, or removed during any replit.md updates. When updating this file, only modify the "Project Documentation" section AFTER the BMAD-METHOD-END marker. Always preserve both sections intact. -->
+
 <!-- BMAD-METHOD-START -->
-# BMad Method v6.0.0-Beta.7 — Agent Configuration
+# BMad Method v6.0.0-Beta.8 — Agent Configuration
 
 ## IMPORTANT: How You Must Operate in This Project
 
@@ -148,15 +150,7 @@ BMAD_SECTION_START
 ROUTING_FALLBACK
   fi
 
-  # Project state section with dynamic project type
-  echo "## Project State"
-  echo ""
-  echo "- **Current Phase:** not started"
-  echo "- **Project Type:** $project_type"
-  echo "- **Completed Artifacts:** none yet"
-  echo ""
-
-  cat << 'BMAD_SECTION_END'
+  cat << 'BMAD_SECTION_MIDDLE'
 ## BMad File Structure
 
 ```
@@ -187,7 +181,20 @@ _bmad-output/             # Generated artifacts go here
 
 **IMPORTANT:** Do NOT embed the contents of BMad config files (config.yaml, etc.) into this replit.md. Only reference them by file path above. Read them from disk when needed.
 <!-- BMAD-METHOD-END -->
-BMAD_SECTION_END
+
+## Project Documentation
+
+> This section is safe for the Replit agent to update. Add project-specific information below.
+
+BMAD_SECTION_MIDDLE
+
+  # Project state goes in the Project Documentation section (outside protected markers)
+  echo "### Project State"
+  echo ""
+  echo "- **Current Phase:** not started"
+  echo "- **Project Type:** $project_type"
+  echo "- **Completed Artifacts:** none yet"
+  echo ""
 }
 
 if [ -f "replit.md" ]; then
