@@ -64,13 +64,15 @@ fi
 
 if ! python3 -c "
 import zipfile, sys
+zip_path = sys.argv[1]
+out_dir = sys.argv[2]
 try:
-    with zipfile.ZipFile('$TEMP_DIR/bmad-latest.zip', 'r') as z:
-        z.extractall('$TEMP_DIR')
+    with zipfile.ZipFile(zip_path, 'r') as z:
+        z.extractall(out_dir)
 except Exception as e:
     print(f'Unzip error: {e}', file=sys.stderr)
     sys.exit(1)
-"; then
+" "$TEMP_DIR/bmad-latest.zip" "$TEMP_DIR"; then
   echo "ERROR: Failed to unzip the download."
   echo "The downloaded file may be corrupted or the repo may be private."
   rm -rf "$TEMP_DIR" "$BACKUP_DIR"
