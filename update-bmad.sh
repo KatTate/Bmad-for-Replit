@@ -62,7 +62,15 @@ if ! curl -sL -o "$TEMP_DIR/bmad-latest.zip" "$GITHUB_URL"; then
   exit 1
 fi
 
-if ! unzip -q "$TEMP_DIR/bmad-latest.zip" -d "$TEMP_DIR"; then
+if ! python3 -c "
+import zipfile, sys
+try:
+    with zipfile.ZipFile('$TEMP_DIR/bmad-latest.zip', 'r') as z:
+        z.extractall('$TEMP_DIR')
+except Exception as e:
+    print(f'Unzip error: {e}', file=sys.stderr)
+    sys.exit(1)
+"; then
   echo "ERROR: Failed to unzip the download."
   echo "The downloaded file may be corrupted or the repo may be private."
   rm -rf "$TEMP_DIR" "$BACKUP_DIR"
