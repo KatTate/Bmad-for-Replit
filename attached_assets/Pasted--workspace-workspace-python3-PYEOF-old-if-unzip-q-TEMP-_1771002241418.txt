@@ -1,0 +1,87 @@
+~/workspace$ ~/workspace$ python3 << 'PYEOF'
+old = 'if ! unzip -q "$TEMP_DIR/bmad-latest.zip" -d "$TEMP_DIR"; then'
+new = """if ! python3 -c "
+import zipfile, sys
+try:
+    with zipfile.ZipFile('$TEMP_DIR/bmad-latest.zip', 'r') as z:
+        z.extractall('$TEMP_DIR')
+except Exception as e:
+    print(f'Unzip error: {e}', file=sys.stderr)
+    sys.exit(1)
+"; then"""
+with open("update-bmad.sh", "r") as f:
+    content = f.read()
+if old in content:
+    with open("update-bmad.sh", "w") as f:
+        f.write(content.replace(old, new))
+    print("Patched!")
+else:
+    print("Already patched or line not found.")
+PYEOF
+bash update-bmad.sh
+Already patched or line not found.
+
+==========================================
+ BMad Method -- Update
+==========================================
+
+[1/7] Current version: 6.0.0-beta.8-replit.4
+[2/7] Backing up your configuration...
+       Saved BMAD config (skill level, output paths)
+[3/7] Downloading latest version from GitHub...
+Unzip error: [Errno 2] No such file or directory: '$TEMP_DIR/bmad-latest.zip'
+ERROR: Failed to unzip the download.
+The downloaded file may be corrupted or the repo may be private.
+~/workspace$ 
+bash: /home/runner/workspace$: No such file or directory
+
+==========================================
+ BMad Method -- Update
+==========================================
+
+[1/7] Current version: 6.0.0-beta.8-replit.4
+[2/7] Backing up your configuration...
+       Saved BMAD config (skill level, output paths)
+[3/7] Downloading latest version from GitHub...
+Unzip error: [Errno 2] No such file or directory: '$TEMP_DIR/bmad-latest.zip'
+ERROR: Failed to unzip the download.
+The downloaded file may be corrupted or the repo may be private.
+bash: Already: command not found
+bash: ==========================================: command not found
+bash: BMad: command not found
+bash: ==========================================: command not found
+bash: [1/7]: No such file or directory
+bash: [2/7]: No such file or directory
+bash: syntax error near unexpected token `('
+bash: [3/7]: No such file or directory
+bash: Unzip: command not found
+bash: ERROR:: command not found
+bash: The: command not found
+bash: /home/runner/workspace$: No such file or directory
+~/workspace$ bash update-bmad.sh
+
+==========================================
+ BMad Method -- Update
+==========================================
+
+[1/7] Current version: 6.0.0-beta.8-replit.4
+[2/7] Backing up your configuration...
+       Saved BMAD config (skill level, output paths)
+[3/7] Downloading latest version from GitHub...
+Unzip error: [Errno 2] No such file or directory: '$TEMP_DIR/bmad-latest.zip'
+ERROR: Failed to unzip the download.
+The downloaded file may be corrupted or the repo may be private.
+~/workspace$ bash update-bmad.sh
+
+==========================================
+ BMad Method -- Update
+==========================================
+
+[1/7] Current version: 6.0.0-beta.8-replit.4
+[2/7] Backing up your configuration...
+       Saved BMAD config (skill level, output paths)
+[3/7] Downloading latest version from GitHub...
+Unzip error: [Errno 2] No such file or directory: '$TEMP_DIR/bmad-latest.zip'
+ERROR: Failed to unzip the download.
+The downloaded file may be corrupted or the repo may be private.
+~/workspace$ 
