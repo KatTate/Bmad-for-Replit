@@ -208,9 +208,19 @@ Your current version is stored in `_bmad/_config/version.txt`. You can ask the a
 
 > "What version of BMad is installed?"
 
+### If the Update Script Fails
+
+If `bash update-bmad.sh` gives errors like `command not found` or syntax errors, your local update script is outdated. Run this one-liner in the Shell tab to fix it:
+
+```bash
+curl -sL https://raw.githubusercontent.com/KatTate/Bmad-for-Replit/main/update-bmad.sh > update-bmad.sh && bash update-bmad.sh
+```
+
+This pulls the latest update script directly from GitHub and runs it. You only need to do this once — future updates will work normally.
+
 ### If update-bmad.sh is Missing
 
-If you installed BMad before the update script was added, you can either:
+If you installed BMad before the update script was added, use the same one-liner above — it will create the update script and run it. Alternatively:
 
 1. **Download the latest zip** from the source repo and tell the agent:
    > "Unzip this and replace the `_bmad/` folder, the install script, and grab the update-bmad.sh file. Don't touch my project files or _bmad-output/"
