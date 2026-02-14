@@ -248,6 +248,16 @@ The update preserves:
 
 Start a new chat after updating to pick up changes.
 
+### Updating Older Installations
+
+If your update script fails (e.g., `command not found` or syntax errors), your local copy may be outdated. Run this one-liner in the Shell to pull the latest update script from GitHub and run it:
+
+```bash
+curl -sL https://raw.githubusercontent.com/KatTate/Bmad-for-Replit/main/update-bmad.sh > update-bmad.sh && bash update-bmad.sh
+```
+
+This replaces the update script with the current version and runs it immediately. You only need to do this once — future updates will work normally.
+
 ---
 
 ## Community & Resources
