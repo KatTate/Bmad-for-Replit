@@ -1,0 +1,60 @@
+~/workspace$ bash update-bmad.sh
+
+==========================================
+ BMad Method — Update
+==========================================
+
+[1/8] Current version: 6.0.0-beta.8-replit.4
+[2/8] Backing up your configuration...
+       Saved BMAD config (skill level, output paths)
+[3/8] Downloading latest version from GitHub...
+       Latest version: 6.0.0-beta.8-replit.4
+[4/8] Updating _bmad/ toolkit...
+       Toolkit files replaced
+[5/8] Restoring your configuration...
+       Restored BMAD config
+[6/8] Updated 28 BMAD skills
+[7/8] Updating support files...
+       Updated update script
+update-bmad.sh: line 177: syntax error near unexpected token `('
+~/workspace$ bash update-bmad.sh
+
+==========================================
+ BMad Method — Update
+==========================================
+
+[1/8] Current version: 6.0.0-beta.8-replit.4
+[2/8] Backing up your configuration...
+       Saved BMAD config (skill level, output paths)
+[3/8] Downloading latest version from GitHub...
+       Latest version: 6.0.0-beta.8-replit.4
+[4/8] Updating _bmad/ toolkit...
+       Toolkit files replaced
+[5/8] Restoring your configuration...
+       Restored BMAD config
+[6/8] Updated 28 BMAD skills
+[7/8] Updating support files...
+       Updated update script
+       Updated install script
+       Updated verify script
+       Updated BMAD-README.md
+[8/8] Adding BMAD awareness section to replit.md (upgrading from pre-marker format)...
+       Your existing replit.md content will be preserved after the BMAD section.
+       BMAD awareness section updated in replit.md
+
+==========================================
+ Update complete!
+==========================================
+
+  Updated: 6.0.0-beta.8-replit.4 -> 6.0.0-beta.8-replit.4
+
+  Your project configuration has been preserved.
+  Your planning artifacts in _bmad-output/ are untouched.
+  28 BMAD skills updated.
+  BMAD awareness section updated in replit.md.
+
+  Start a NEW CHAT to pick up the changes.
+
+==========================================
+
+~/workspace$ 
