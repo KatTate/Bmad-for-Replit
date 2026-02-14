@@ -2,7 +2,7 @@
 
 **Breakthrough Method of Agile AI Driven Development** — An AI-driven agile development framework with specialized agent personas and guided workflows that take your project from idea through implementation.
 
-Based on the [BMad Method](https://github.com/bmad-code-org/BMAD-METHOD) (v6.0.0-Beta.7), adapted for Replit Agent.
+Based on the [BMad Method](https://github.com/bmad-code-org/BMAD-METHOD) (v6.0.0-Beta.8), adapted for Replit Agent.
 
 **100% free and open source.** No paywalls. No gated content.
 
@@ -82,11 +82,11 @@ BMad uses specialized agent personas. Each brings domain expertise to their part
 
 ## Complete Workflow Reference
 
-### Phase 0: Assessment (Brownfield Projects)
+### Phase 0: Assessment (Established Projects)
 
 | Say | Code | What It Does | Output |
 |---|---|---|---|
-| "assess brownfield" | AB | Scan an existing project to understand its state and find the best BMad entry point | Assessment report |
+| "assess established project" | AB | Scan an existing project to understand its state and find the best BMad entry point | Assessment report |
 
 ### Phase 1: Analysis
 
@@ -216,12 +216,11 @@ _bmad-output/             # Your generated artifacts (preserved on update)
 
 ## Configuration
 
-Two config files control BMad behavior:
+BMad uses a single config file for its own settings:
 
-- **`_bmad/core/config.yaml`** — Your name and preferred language
-- **`_bmad/bmm/config.yaml`** — Project name, skill level, output paths
+- **`_bmad/bmm/config.yaml`** — Skill level and output paths (BMAD-specific settings only)
 
-These are preserved when you update BMad.
+Your name, project name, and language are pulled automatically from the Replit environment — no need to configure them manually. The config file is preserved when you update BMad.
 
 ---
 
@@ -231,7 +230,7 @@ These are preserved when you update BMad.
 
 1. Copy the `_bmad/` folder and `install-bmad.sh` into your project root
 2. Run: `bash install-bmad.sh`
-3. The script auto-detects brownfield vs greenfield and safely merges with any existing `replit.md`
+3. The script auto-detects existing vs new projects and safely merges with any existing `replit.md`
 4. Start a new chat and say **"start BMad"** or **"what's next?"**
 
 ### Updating

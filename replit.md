@@ -5,15 +5,15 @@
 
 ## IMPORTANT: How You Must Operate in This Project
 
-This is a **BMad Method** project. You MUST follow these rules in every conversation:
+This is a **BMad Method** project. BMAD workflows are activated through **Replit Agent Skills** installed in `.agents/skills/bmad-*/`. You MUST follow these rules in every conversation:
 
-1. **Check every user message against the routing tables below.** Trigger phrases are not exact-match-only — use intent matching. If the user's message contains or implies a trigger phrase, activate that route. Example: "should we do sprint planning for Epic 2?" contains the intent "sprint planning" and MUST activate the SP workflow with the Scrum Master persona.
-2. **When a route matches, load the referenced file and follow it.** Do not answer the question in your own words. Load the workflow or agent file and execute it.
-3. **For workflows:** First load `_bmad/core/tasks/workflow.xml` (the execution engine), then load the matched workflow file. Execute ALL steps IN ORDER. When a step says WAIT for user input, STOP and WAIT.
+1. **BMAD skills handle workflow activation.** When a user's message matches a BMAD skill trigger (e.g., "create PRD", "code review", "party mode"), the skill will activate and provide instructions for loading the correct workflow files. Follow those instructions exactly.
+2. **When a skill activates, load the referenced files and follow them.** Do not answer in your own words. Load the workflow or agent file specified in the skill and execute it.
+3. **For workflows:** The skill will instruct you to either load `_bmad/core/tasks/workflow.xml` (the execution engine) with a workflow YAML config, or load a workflow markdown file directly. Execute ALL steps IN ORDER. When a step says WAIT for user input, STOP and WAIT.
 4. **For agents:** Load the agent file, adopt that persona completely, and present the agent's menu.
 5. **Never skip, summarize, or improvise** workflow steps. Never auto-proceed past WAIT points.
-6. **If no route matches,** respond normally but remain aware that this is a BMAD project. If the user seems to be asking about project planning, development, or process, suggest the relevant BMAD workflow.
-7. **If unsure whether a route matches,** ask: "Would you like me to run the [workflow name] workflow for that?"
+6. **If no skill activates,** respond normally but remain aware that this is a BMAD project. If the user seems to be asking about project planning, development, or process, suggest the relevant BMAD workflow. Say "help" or "BH" anytime for guidance.
+7. **If unsure whether a BMAD workflow applies,** ask: "Would you like me to run the [workflow name] workflow for that?"
 
 ## BMad File Structure
 
@@ -29,8 +29,9 @@ _bmad/                    # BMad Method toolkit
 │   ├── data/             # Templates and context files
 │   └── teams/            # Team configurations for party mode
 ├── _config/              # Manifests, help catalog, customization
-├── _memory/              # Agent memory (tech writer standards)
-└── replit-routing.md     # Routing source (auto-inlined into replit.md on install)
+└── _memory/              # Agent memory (tech writer standards)
+
+.agents/skills/bmad-*/    # Replit Agent Skills (workflow activation)
 
 _bmad-output/             # Generated artifacts go here
 ├── planning-artifacts/   # Briefs, PRDs, architecture, UX docs
@@ -60,11 +61,16 @@ The BMad Method project provides a comprehensive framework for software developm
 - 3-session-per-story workflow cycle: Session 1 (Create Story + party mode review), Session 2 (Dev Story implementation), Session 3 (Code Review + Party Mode + Fix + Close)
 - Prefers accessible terminology over technical jargon (e.g., "established projects" over "brownfield")
 
-### Recent Changes (Beta.8-replit.5)
+### Recent Changes (Beta.8-replit.6)
+
+- **Skills-only activation**: Removed routing table from replit.md — BMAD workflows now activate exclusively through Replit Agent Skills (`.agents/skills/bmad-*/`). The replit.md BMAD section is now a slim awareness block that tells the agent "this is a BMAD project, skills handle activation."
+- **Install/update script overhaul**: Both `install-bmad.sh` and `update-bmad.sh` now copy skills during install/update and generate the slim awareness block instead of inlining the routing table. Scripts bumped to v6.0.0-Beta.8.
+- **No dual activation**: Routing table removed — skills are the single activation mechanism.
+
+### Previous Changes (Beta.8-replit.5)
 
 - **Skills conversion (28 total)**: Converted all 26 BMAD workflows + 2 utility tasks into Replit Agent Skills format (`.agents/skills/bmad-*/SKILL.md`). Skills use the "thin wrapper/pointer" approach — each SKILL.md contains activation logic, critical rules, and file pointers to existing `_bmad/` workflows. Zero content duplication. Skills enable native Replit Agent discovery and prevent agent drift across chat sessions.
 - **Skill naming**: All skills use `bmad-` prefix for namespace grouping (e.g., `bmad-create-prd`, `bmad-dev-story`)
-- **Dual activation**: Skills coexist with the replit.md routing table — both paths lead to the same workflow files
 
 ### Previous Changes (Beta.8-replit.4)
 
@@ -83,7 +89,7 @@ The BMad Method operates on a modular architecture centered around specialized A
 **Core Principles:**
 - **Agent-Driven Development:** Utilizes a team of 10 distinct AI agent personas (e.g., Business Analyst, Product Manager, Architect, Developer, QA Engineer, Scrum Master, UX Designer, Technical Writer, Quick Flow Solo Dev, BMad Master), each with a specific role and set of capabilities.
 - **Workflow-Based Execution:** Development tasks are structured into sequential workflows, categorized into phases: Assessment (Established Projects), Analysis, Planning, Solutioning, and Implementation. Workflows ensure systematic progress and adherence to best practices.
-- **Intent-Based Routing:** User commands are matched against a comprehensive routing table using intent recognition to activate specific agents or workflows. This allows for natural language interaction.
+- **Skills-Based Activation:** BMAD workflows are activated through Replit Agent Skills (`.agents/skills/bmad-*/`), which provide native platform discovery and persistent instructions across chat sessions.
 - **Execution Protocol:** Workflows are executed by a core engine (`_bmad/core/tasks/workflow.xml`), ensuring all steps are followed in order, with explicit wait points for user interaction.
 - **Configuration Management:** Project-specific settings and agent behaviors are managed through `_bmad/bmm/config.yaml`, while help documentation is cataloged in `_bmad/_config/bmad-help.csv`.
 - **Platform Intelligence Integration:** Leverages Replit environment variables (`$REPLIT_USER`, `$REPL_SLUG`, `$LANG`) to personalize interactions and gather project context.
