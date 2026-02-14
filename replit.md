@@ -60,7 +60,13 @@ The BMad Method project provides a comprehensive framework for software developm
 - 3-session-per-story workflow cycle: Session 1 (Create Story + party mode review), Session 2 (Dev Story implementation), Session 3 (Code Review + Party Mode + Fix + Close)
 - Prefers accessible terminology over technical jargon (e.g., "established projects" over "brownfield")
 
-### Recent Changes (Beta.8-replit.4)
+### Recent Changes (Beta.8-replit.5)
+
+- **Skills conversion (28 total)**: Converted all 26 BMAD workflows + 2 utility tasks into Replit Agent Skills format (`.agents/skills/bmad-*/SKILL.md`). Skills use the "thin wrapper/pointer" approach — each SKILL.md contains activation logic, critical rules, and file pointers to existing `_bmad/` workflows. Zero content duplication. Skills enable native Replit Agent discovery and prevent agent drift across chat sessions.
+- **Skill naming**: All skills use `bmad-` prefix for namespace grouping (e.g., `bmad-create-prd`, `bmad-dev-story`)
+- **Dual activation**: Skills coexist with the replit.md routing table — both paths lead to the same workflow files
+
+### Previous Changes (Beta.8-replit.4)
 
 - **replit.md protection**: Added BMAD-METHOD-START/END markers with protective HTML comment to prevent Replit agent from overwriting BMad configuration during project updates
 - **Session management guidance**: Added fresh chat prompts to Create Story, Dev Story, and Code Review workflows at optimal session boundaries
