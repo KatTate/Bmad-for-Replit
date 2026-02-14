@@ -13,7 +13,7 @@
 set -e
 
 GITHUB_REPO="KatTate/Bmad-for-Replit"
-GITHUB_URL="https://github.com/$GITHUB_REPO/archive/refs/heads/main.zip"
+GITHUB_URL="https://github.com/$GITHUB_REPO/archive/refs/heads/main.tar.gz"
 TEMP_DIR="/tmp/bmad-update-$$"
 EXTRACTED_DIR="$TEMP_DIR/Bmad-for-Replit-main"
 
@@ -54,7 +54,7 @@ echo "[3/8] Downloading latest version from GitHub..."
 
 mkdir -p "$TEMP_DIR"
 
-if ! curl -sL -o "$TEMP_DIR/bmad-latest.zip" "$GITHUB_URL"; then
+if ! curl -sL -o "$TEMP_DIR/bmad-latest.tar.gz" "$GITHUB_URL"; then
   echo "ERROR: Failed to download from GitHub."
   echo "Check your internet connection and that the repo is accessible:"
   echo "  $GITHUB_URL"
@@ -62,8 +62,8 @@ if ! curl -sL -o "$TEMP_DIR/bmad-latest.zip" "$GITHUB_URL"; then
   exit 1
 fi
 
-if ! unzip -qo "$TEMP_DIR/bmad-latest.zip" -d "$TEMP_DIR"; then
-  echo "ERROR: Failed to unzip the download."
+if ! tar -xzf "$TEMP_DIR/bmad-latest.tar.gz" -C "$TEMP_DIR"; then
+  echo "ERROR: Failed to extract the download."
   echo "The downloaded file may be corrupted or the repo may be private."
   rm -rf "$TEMP_DIR" "$BACKUP_DIR"
   exit 1
