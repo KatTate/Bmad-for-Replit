@@ -255,39 +255,43 @@ for the complete phase-sequenced guide.
 
 ## 3. Conversion Strategy by Priority
 
-### Tier 1 — Most Frequently Used (Convert First)
+### Tier 1 — Validation Set (Convert & Validate First)
 
-These are the workflows users reach for most often, and where drift causes the most pain:
+These four skills form the daily story cycle and the tool used to validate them. Converting and validating these first proves the entire approach works where it matters most — the inner loop you run every day:
 
-| # | Skill Name | BMAD Source | Why Priority |
-|---|-----------|-------------|-------------|
-| 1 | `bmad-core` | `replit-routing.md` + `help.md` + `bmad-master.md` | Foundation — everything routes through here |
-| 2 | `bmad-quick-spec` | `bmad-quick-flow/quick-spec/` | Most used "simple path" entry point |
-| 3 | `bmad-quick-dev` | `bmad-quick-flow/quick-dev/` | Paired with quick-spec, high daily usage |
-| 4 | `bmad-create-brief` | `1-analysis/create-product-brief/` | Primary "full path" entry point |
-| 5 | `bmad-create-prd` | `2-plan-workflows/create-prd/` | Core planning workflow, complex + drift-prone |
-| 6 | `bmad-create-architecture` | `3-solutioning/create-architecture/` | Critical solutioning workflow |
-| 7 | `bmad-create-epics` | `3-solutioning/create-epics-and-stories/` | Bridge between planning and implementation |
-| 8 | `bmad-dev-story` | `4-implementation/dev-story/` | Daily development loop |
-| 9 | `bmad-code-review` | `4-implementation/code-review/` | Quality gate in story cycle |
-| 10 | `bmad-party-mode` | `core/workflows/party-mode/` | Unique multi-agent feature, tricky to keep on track |
+| # | Skill Name | BMAD Source | Why First |
+|---|-----------|-------------|-----------|
+| 1 | `bmad-create-story` | `4-implementation/create-story/` | Entry point of the story cycle — prepares acceptance criteria and dev notes |
+| 2 | `bmad-dev-story` | `4-implementation/dev-story/` | Core daily development workflow — most time spent here |
+| 3 | `bmad-code-review` | `4-implementation/code-review/` | Quality gate that closes the story cycle |
+| 4 | `bmad-party-mode` | `core/workflows/party-mode/` | Multi-agent validation tool — used to review and validate all three above |
 
-### Tier 2 — Supporting Workflows (Convert Second)
+**Validation approach:** Convert these four, then use Party Mode to run the full story cycle (Create Story → Dev Story → Code Review) and verify the agent stays on track at every step. This tests both individual skill fidelity and cross-skill navigation.
+
+### Tier 2 — Core Infrastructure + Planning (Convert Second)
+
+Once the story cycle is proven, build out the orchestrator and the planning workflows that feed into it:
+
+| # | Skill Name | BMAD Source | Why This Tier |
+|---|-----------|-------------|--------------|
+| 5 | `bmad-core` | `replit-routing.md` + `help.md` + `bmad-master.md` | Master routing + "what's next?" — connects everything |
+| 6 | `bmad-quick-spec` | `bmad-quick-flow/quick-spec/` | Most used "simple path" entry point |
+| 7 | `bmad-quick-dev` | `bmad-quick-flow/quick-dev/` | Paired with quick-spec, high daily usage |
+| 8 | `bmad-create-brief` | `1-analysis/create-product-brief/` | Primary "full path" entry point |
+| 9 | `bmad-create-prd` | `2-plan-workflows/create-prd/` | Core planning workflow, complex + drift-prone |
+| 10 | `bmad-create-architecture` | `3-solutioning/create-architecture/` | Critical solutioning workflow |
+| 11 | `bmad-create-epics` | `3-solutioning/create-epics-and-stories/` | Bridge between planning and implementation |
+| 12 | `bmad-sprint-planning` | `4-implementation/sprint-planning/` | Sets up the sprint that feeds the story cycle |
+
+### Tier 3 — Supporting & Specialty (Convert Last)
 
 | # | Skill Name | BMAD Source |
 |---|-----------|-------------|
-| 11 | `bmad-create-story` | `4-implementation/create-story/` |
-| 12 | `bmad-sprint-planning` | `4-implementation/sprint-planning/` |
 | 13 | `bmad-check-readiness` | `3-solutioning/check-implementation-readiness/` |
 | 14 | `bmad-brainstorm` | `core/workflows/brainstorming/` |
 | 15 | `bmad-validate-prd` | `2-plan-workflows/create-prd/workflow-validate-prd.md` |
 | 16 | `bmad-research` | `1-analysis/research/` (all 3 types) |
 | 17 | `bmad-correct-course` | `4-implementation/correct-course/` |
-
-### Tier 3 — Utility & Specialty (Convert Last)
-
-| # | Skill Name | BMAD Source |
-|---|-----------|-------------|
 | 18 | `bmad-edit-prd` | `2-plan-workflows/create-prd/workflow-edit-prd.md` |
 | 19 | `bmad-create-ux` | `2-plan-workflows/create-ux-design/` |
 | 20 | `bmad-tech-writer` | `bmm/agents/tech-writer/` |
@@ -466,11 +470,11 @@ The `bmad-core` skill provides "what's next?" logic that checks which artifacts 
 
 | Tier | Skills | Est. Hours per Skill | Total |
 |------|--------|---------------------|-------|
-| Tier 1 (10 skills) | Core + top workflows | 2-4 hours | 20-40 hours |
-| Tier 2 (7 skills) | Supporting workflows | 1.5-3 hours | 10-21 hours |
-| Tier 3 (9 skills) | Utility & specialty | 1-2 hours | 9-18 hours |
+| Tier 1 (4 skills) | Story cycle + Party Mode validation | 3-5 hours | 12-20 hours |
+| Tier 2 (8 skills) | Core orchestrator + planning workflows | 2-4 hours | 16-32 hours |
+| Tier 3 (14 skills) | Supporting & specialty | 1-2 hours | 14-28 hours |
 | Testing & tuning | All 26 skills | 0.5-1 hour each | 13-26 hours |
-| **Total** | **26 skills** | | **52-105 hours** |
+| **Total** | **26 skills** | | **55-106 hours** |
 
 Most of the work is careful condensation of step files into the skill format while preserving exact behavior. The content already exists — it's a translation and restructuring effort, not a creation effort.
 
@@ -491,8 +495,10 @@ Most of the work is careful condensation of step files into the skill format whi
 
 ## 9. Recommendation
 
-**Start with Tier 1, specifically `bmad-core`, `bmad-quick-spec`, and `bmad-quick-dev`.** These three skills cover the "simple path" that most users hit daily. They're also relatively self-contained and will validate the entire conversion approach before tackling the more complex multi-step planning workflows.
+**Start with the story cycle: `bmad-create-story`, `bmad-dev-story`, `bmad-code-review`, and `bmad-party-mode`.** These four skills cover the inner loop you run every day — the workflow where drift is most noticeable and most costly. Party Mode serves double duty as both a converted skill AND the validation tool for the other three.
 
-Once those three work reliably, move to `bmad-create-brief` and `bmad-create-prd` which are the most complex conversions due to their 10+ step sequences. Success with these proves the progressive disclosure pattern works at scale.
+**Validation process:** Convert all four, then run the full story cycle (Create Story → Dev Story → Code Review) using Party Mode at each stage to verify the agent stays on track. This tests individual skill fidelity, cross-skill navigation, and the progressive disclosure pattern — all in the context you know best.
+
+Once the story cycle is proven, move to the core orchestrator and planning workflows (Tier 2). The complex multi-step workflows like Create PRD and Create Architecture are best tackled after the pattern is validated on the tighter, more concrete implementation workflows.
 
 The key insight is that Agent Skills give us **native discovery** (no more routing table fragility) and **persistent instructions** (survives chat resets) — both of which directly address the two biggest sources of BMAD drift in the current setup.
