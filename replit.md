@@ -63,7 +63,14 @@ The BMad Method project provides a comprehensive framework for software developm
 - 3-session-per-story workflow cycle: Session 1 (Create Story + party mode review), Session 2 (Dev Story implementation), Session 3 (Code Review + Party Mode + Fix + Close)
 - Prefers accessible terminology over technical jargon (e.g., "established projects" over "brownfield")
 
-### Recent Changes (Beta.8-replit.6)
+### Recent Changes (Beta.8-replit.7)
+
+- **Dev Story workflow restructured (11 steps)**: Restored the official BMAD multi-step structure to fix agents consistently skipping later steps (story doc updates, sprint status updates). The previous Replit adaptation had collapsed the workflow into 6 steps with a massive "Plan and implement" step, causing agents to lose track after implementation. Now uses 11 bounded steps: load → context → review detection → sprint status → plan → implement → test → verify ACs → platform checks → update docs → communicate completion. Replit adaptations preserved (agent-driven planning, LSP diagnostics, git status, screenshots).
+- **SKILL.md enhanced**: Now includes explicit 11-step summary and highlights steps 10-11 as commonly missed, providing structural reinforcement for agent compliance.
+- **Checklist.md expanded**: Restored comprehensive validation sections from official BMAD (Context Validation, AC Verification, Testing, User-Facing Delivery, Documentation & Traceability) plus Replit-specific Platform Verification section.
+- **Variable alignment fix**: Corrected `story_path` → `story_file` mismatch between instructions.xml and workflow.yaml that could block story loading.
+
+### Previous Changes (Beta.8-replit.6)
 
 - **Skills-only activation**: Removed routing table from replit.md — BMAD workflows now activate exclusively through Replit Agent Skills (`.agents/skills/bmad-*/`). The replit.md BMAD section is now a slim awareness block that tells the agent "this is a BMAD project, skills handle activation."
 - **Install/update script overhaul**: Both `install-bmad.sh` and `update-bmad.sh` now copy skills during install/update and generate the slim awareness block instead of inlining the routing table. Scripts bumped to v6.0.0-Beta.8.
