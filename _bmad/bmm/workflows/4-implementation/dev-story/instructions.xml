@@ -11,8 +11,8 @@
   <critical>REPLIT TIP: For best results, run this workflow in a fresh chat to maximize available context.</critical>
 
   <step n="1" goal="Load story file as authoritative context">
-    <check if="{{story_path}} is provided">
-      <action>Use {{story_path}} directly</action>
+    <check if="{{story_file}} is provided">
+      <action>Use {{story_file}} directly</action>
       <action>Read COMPLETE story file</action>
       <action>Extract story_key from filename or metadata</action>
       <goto anchor="context_loaded" />
