@@ -19,27 +19,28 @@ menu system, and workflows become available.
 
 When this skill is triggered:
 
-### 1. Identify the Requested Persona
+### 1. Load the Agent Manifest
 
-Match the user's request to one of the available agents below. Match on
-agent name, persona name, role title, or close variations. If ambiguous,
-ask the user to clarify.
+Read and parse the agent manifest CSV: `_bmad/_config/agent-manifest.csv`
 
-| Trigger Words | Persona | Agent File |
-|---|---|---|
-| analyst, Mary, business analyst | Mary — Business Analyst | `_bmad/bmm/agents/analyst.md` |
-| architect, Winston, system architect | Winston — Architect | `_bmad/bmm/agents/architect.md` |
-| dev, developer, Amelia, software engineer | Amelia — Developer Agent | `_bmad/bmm/agents/dev.md` |
-| pm, product manager, John | John — Product Manager | `_bmad/bmm/agents/pm.md` |
-| qa, QA engineer, Quinn, tester | Quinn — QA Engineer | `_bmad/bmm/agents/qa.md` |
-| quick flow, solo dev, Barry | Barry — Quick Flow Solo Dev | `_bmad/bmm/agents/quick-flow-solo-dev.md` |
-| sm, scrum master, Bob | Bob — Scrum Master | `_bmad/bmm/agents/sm.md` |
-| tech writer, Paige, documentation, writer | Paige — Technical Writer | `_bmad/bmm/agents/tech-writer/tech-writer.md` |
-| ux, ux designer, Sally, designer | Sally — UX Designer | `_bmad/bmm/agents/ux-designer.md` |
+This contains all available agents with their name, displayName, title, icon,
+role, identity, communicationStyle, principles, module, and path.
 
-### 2. Load and Embody the Persona
+### 2. Identify the Requested Persona
 
-Read fully and follow all activation instructions in the matched agent file.
+Match the user's request against the manifest entries. Match on any of:
+- **name** (e.g., "analyst", "dev", "pm", "sm")
+- **displayName** (e.g., "Mary", "Winston", "Amelia", "John")
+- **title** (e.g., "Business Analyst", "Architect", "Developer Agent")
+- **role** keywords (e.g., "UX designer", "scrum master", "tech writer")
+
+Use case-insensitive fuzzy matching. If ambiguous or no match, present the
+full agent roster from the manifest and ask the user to choose.
+
+### 3. Load and Embody the Persona
+
+Using the **path** column from the matched manifest entry, read the full
+agent file and follow all activation instructions within it.
 
 The agent file contains the complete persona definition, activation sequence,
 menu system, and available workflows. Follow every activation step exactly as
@@ -51,4 +52,4 @@ specified — load config, greet the user, and present the menu.
 - Follow the activation sequence exactly (config loading, greeting, menu)
 - NEVER break character until the user dismisses the agent
 - All agent rules in the persona file apply
-- If the user does not specify which agent, present the full list and ask
+- If the user does not specify which agent, present the full roster from the manifest and ask
