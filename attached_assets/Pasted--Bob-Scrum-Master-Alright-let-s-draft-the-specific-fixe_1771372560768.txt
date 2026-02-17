@@ -1,0 +1,188 @@
+🏃 Bob (Scrum Master):
+
+Alright, let's draft the specific fixes. I'll hand each agent the files in their domain and we'll produce concrete text changes.
+
+Fix 1: Dev Story — Step 8 AC Verification
+💻 Amelia (Dev):
+
+In _bmad/bmm/workflows/4-implementation/dev-story/instructions.xml, Step 8 currently says:
+
+<action>Walk through each acceptance criterion one by one and verify it is satisfied</action>
+Replace with:
+
+<action>Produce an AC Verification Table. For EACH acceptance criterion in the story file:
+  1. Copy the AC text (abbreviated if needed)
+  2. Verify it against the RUNNING APPLICATION (for user-facing stories) or test output (for infrastructure)
+  3. Record evidence: screenshot description, data-testid, test case ID, or code reference
+  4. Mark: SATISFIED or NOT SATISFIED
+  
+  Format:
+  | AC# | AC Text (short) | Evidence | Status |
+  |-----|----------------|----------|--------|
+  | 1   | Breadcrumb shows drill path | No breadcrumb element rendered after drill-down | NOT SATISFIED |
+  
+  Do NOT verify by reading your own code alone. For user-facing ACs, you MUST interact with
+  the running UI and confirm the behavior is visible/functional. "The hook exists" is not
+  evidence — "clicking the year header shows quarterly columns with distinct styling" is evidence.
+</action>
+<check if="any AC is NOT SATISFIED in the verification table">
+  <action>Go back and fix the implementation until all ACs are SATISFIED</action>
+  <action>Re-verify the fixed ACs against the running application</action>
+  <action>Update the verification table</action>
+  <action>If unable to satisfy an AC, HALT and explain what's blocking</action>
+</check>
+Fix 2: Dev Story Checklist — Add evidence requirement
+💻 Amelia (Dev):
+
+In _bmad/bmm/workflows/4-implementation/dev-story/checklist.md, the "Acceptance Criteria Verification" section currently says:
+
+- [ ] **Every AC satisfied**: Each acceptance criterion in the story file has been verified as met
+- [ ] **No partial implementations**: Nothing is "mostly done" or "will be finished later"
+- [ ] **Verifiable outcomes**: Each AC was verified by running, testing, or inspecting the result
+Replace with:
+
+- [ ] **AC Verification Table produced**: A numbered table mapping every AC to specific evidence (screenshot, test ID, data-testid, or UI interaction description) with SATISFIED/NOT SATISFIED status
+- [ ] **Every AC satisfied**: Each row in the AC Verification Table shows SATISFIED status
+- [ ] **No partial implementations**: Nothing is "mostly done" or "will be finished later"
+- [ ] **User-facing ACs verified in running app**: For stories where the "As a..." role is an end user, every AC was verified by interacting with the running UI — not by reading code alone
+Fix 3: Code Review — Merge AC verification with visual verification
+📋 John (PM):
+
+In _bmad/bmm/workflows/4-implementation/code-review/instructions.xml, Step 3's AC verification currently says "Search implementation files for evidence." And Step 3.5's visual verification is a separate general check.
+
+In Step 3, replace the AC verification action with:
+
+<action>For EACH Acceptance Criterion:
+  1. Read the AC requirement carefully
+  2. Search implementation files for code that implements it
+  3. For user-facing ACs: ALSO verify in the running application — does the user see/experience what the AC describes?
+  4. Determine: SATISFIED (code exists AND behavior confirmed), PARTIAL, or NOT SATISFIED
+  5. If no code implements this AC → HIGH severity finding: "AC not implemented"
+  6. If code exists but behavior not confirmed in UI → MEDIUM severity finding: "AC implemented but not verified visually"
+  
+  Produce an AC Status Table:
+  | AC# | AC Text (short) | Code Evidence | UI Verified | Status |
+  |-----|----------------|---------------|-------------|--------|
+  
+  CRITICAL: "No code found" is a valid and important finding. The absence of implementation
+  IS the issue — do not skip ACs just because there's nothing to review.
+</action>
+In Step 3.5, update the visual verification to cross-reference ACs:
+
+<check if="story's 'As a...' role is an end user OR story has UI/UX Deliverables section">
+  <action>Navigate to each route or page referenced in the acceptance criteria.
+    For each AC that describes a visual or interactive behavior:
+    - Take a screenshot or describe what you observe
+    - Compare directly against the AC text
+    - Update the AC Status Table from Step 3 with visual verification results
+    Any AC where the UI does not match the AC description is a HIGH finding.
+  </action>
+</check>
+Fix 4: Code Review Checklist — Add AC completeness check
+📋 John (PM):
+
+In _bmad/bmm/workflows/4-implementation/code-review/checklist.md, the "Acceptance Criteria Verification" section currently says:
+
+- [ ] Every AC individually verified against implementation
+- [ ] Each AC marked as SATISFIED, PARTIAL, or NOT SATISFIED with evidence
+- [ ] Any unsatisfied or partial ACs flagged as HIGH severity findings
+Replace with:
+
+- [ ] **AC Status Table produced**: Numbered table with every AC mapped to code evidence, UI verification status, and SATISFIED/PARTIAL/NOT SATISFIED determination
+- [ ] **Missing implementation check**: Explicitly checked for ACs with NO corresponding code (absence of implementation is a HIGH finding)
+- [ ] **Visual cross-reference** (user-facing stories): Each user-facing AC verified against running application, not just code
+- [ ] **Any unsatisfied or partial ACs flagged as HIGH severity findings**
+Fix 5: QA Automate — Make it AC-driven
+🧪 Quinn (QA):
+
+In _bmad/bmm/workflows/qa/automate/instructions.md, Step 1 currently says:
+
+### Step 1: Identify Features
+Ask user what to test:
+- Specific feature/component name
+- Directory to scan
+- Or auto-discover features in the codebase
+Replace with:
+
+### Step 1: Load Story and Extract Test Targets
+Load the story file for the feature being tested:
+- If user provides a story file path, load it directly
+- If user names a feature, search implementation artifacts for the matching story file
+- If no story file exists, fall back to feature-based discovery (ask user what to test)
+When a story file is available:
+- Extract ALL acceptance criteria from the story
+- Number each AC and use them as the primary source for test cases
+- Each AC becomes at least one test case
+- Present the AC list to the user and confirm test scope
+AC Coverage Table (maintain throughout):
+| AC# | AC Text (short) | Test Case | Status |
+|-----|----------------|-----------|--------|
+In Step 3 (E2E Tests), add after the existing guidance:
+
+#### AC-to-Test Mapping (when story file is available)
+For each acceptance criterion from Step 1:
+- Write at least one test case that directly verifies the AC
+- For visual/UX ACs (styling, layout, visual hierarchy), include visual assertions:
+  - Element visibility, styling properties, relative positioning
+  - "Verify that quarter headers have distinct background from year headers"
+  - "Verify a collapse button is visible after drill-down"
+- Name test cases with AC reference: `test('AC3: breadcrumb shows drill-down path', ...)`
+- Update the AC Coverage Table with the test case mapping
+In Step 5 (Summary), replace the coverage template with:
+
+## Coverage
+### AC Coverage (primary metric)
+- Acceptance Criteria covered: X/Y
+- Uncovered ACs: [list any ACs without test cases]
+### Feature Coverage (secondary metric)  
+- API endpoints: X/Y covered
+- UI features: X/Y covered
+Fix 6: QA Checklist — Add AC coverage requirement
+🧪 Quinn (QA):
+
+In _bmad/bmm/workflows/qa/automate/checklist.md, add after "Test Generation":
+
+## AC Coverage (when story file available)
+- [ ] Story file loaded and all ACs extracted
+- [ ] Each AC mapped to at least one test case
+- [ ] AC Coverage Table included in test summary
+- [ ] Visual/UX ACs have visual assertions (not just "element exists")
+- [ ] Coverage metric uses AC count as primary measure
+Fix 7: Create Story — Anti-coding guardrail
+🏃 Bob (Scrum Master):
+
+In _bmad/bmm/workflows/4-implementation/create-story/instructions.xml, add as a new critical rule near the top (after the existing critical blocks):
+
+<critical>THIS WORKFLOW PRODUCES A MARKDOWN DOCUMENT ONLY. You must NOT write any application 
+  code, create any source files, modify any source files, install any packages, or run any 
+  build/test commands. Your ONLY output is a story context document (.md file) saved to the 
+  implementation artifacts folder. If you feel the urge to start coding, STOP — that is the 
+  Dev Story workflow's job, not yours.</critical>
+In _bmad/bmm/workflows/4-implementation/create-story/SKILL.md (which is actually .agents/skills/bmad-create-story/SKILL.md), add to Critical Rules:
+
+- This workflow creates a DOCUMENT, not code. Do NOT write application code, modify source 
+  files, or begin implementation. Your only output is a single markdown story file.
+Also in the SKILL.md, change the "Common LLM Mistakes" line from:
+
+- COMMON LLM MISTAKES TO PREVENT: reinventing wheels, wrong libraries, wrong file
+  locations, breaking regressions, ignoring UX, vague implementations
+To:
+
+- COMMON LLM MISTAKES TO PREVENT: skipping artifact analysis, vague acceptance criteria,
+  missing dev notes sections, omitting UX deliverables for user-facing stories, not citing
+  source references
+This replaces implementation-focused language with document-quality-focused language.
+
+🏃 Bob (Scrum Master):
+
+That's 7 fixes across 8 files. Here's the summary:
+
+Fix #	File(s)	Change
+1	dev-story/instructions.xml Step 8	Require AC Verification Table with per-AC evidence from running app
+2	dev-story/checklist.md	Add "AC Verification Table produced" as checklist item
+3	code-review/instructions.xml Steps 3 & 3.5	Merge code + visual verification per-AC; detect missing code as a finding
+4	code-review/checklist.md	Add "AC Status Table" and "missing implementation check" items
+5	qa/automate/instructions.md Steps 1, 3, 5	Make test plan AC-driven; AC coverage as primary metric
+6	qa/automate/checklist.md	Add AC coverage section
+7	create-story/instructions.xml + SKILL.md	Explicit "no code" guardrail; fix implementation-biased language
+None of these are rewrites. They're targeted additions that close the specific gaps we identified. The workflows keep their existing structure — we're just adding the forcing functions that were missing.
