@@ -61,6 +61,11 @@ through all 6 steps in order. The workflow engine handles:
 - EXHAUSTIVE ANALYSIS REQUIRED — do NOT be lazy or skim artifacts
 - COMMON LLM MISTAKES TO PREVENT: reinventing wheels, wrong libraries, wrong file
   locations, breaking regressions, ignoring UX, vague implementations
+- DOCUMENT-QUALITY MISTAKES TO PREVENT: skipping artifact analysis, vague acceptance
+  criteria, missing dev notes sections, omitting UX deliverables for user-facing stories,
+  not citing source references
+- This workflow creates a DOCUMENT, not code. Do NOT write application code, modify source
+  files, or begin implementation. Your only output is a single markdown story file.
 
 ## What's Next
 

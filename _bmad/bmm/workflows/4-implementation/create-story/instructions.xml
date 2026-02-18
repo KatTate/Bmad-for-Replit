@@ -13,6 +13,14 @@
     thing without a task list? If yes, the story is complete. If no, the acceptance criteria or dev notes are missing something.</critical>
   <critical>DO NOT write a Tasks/Subtasks section. The dev agent creates its own implementation plan from the acceptance criteria and
     dev notes. Pre-writing implementation steps removes the agent's ability to plan effectively.</critical>
+  <critical>OUTPUT CONSTRAINT: This workflow produces ONE markdown file as output.
+    You must NOT:
+    - Write, modify, or create any application source code files
+    - Install packages or run build/test commands
+    - Create components, pages, routes, database schemas, or API endpoints
+    - Use any file-writing tools except to save the story document to {{default_output_file}}
+    If at any point you begin analyzing code with the intent to CHANGE it rather than
+    UNDERSTAND it for story context, STOP. That is the Dev Story workflow's job.</critical>
   <critical>🚨 EXHAUSTIVE ANALYSIS REQUIRED: You must thoroughly analyze ALL artifacts to extract critical context — do NOT be lazy or skim!
     This is the most important function in the entire development process!</critical>
   <critical>🔬 UTILIZE SUBPROCESSES AND SUBAGENTS: Use research subagents, subprocesses or parallel processing if available to thoroughly
@@ -330,18 +338,20 @@
 
       Once you are satisfied with the story (ideally after **Adversarial Review** or **Party Mode**), start implementation in a FRESH CONTEXT for best results.
 
-      Copy one of these prompts to start:
+      When ready, start a NEW chat session and use one of these prompts:
 
+      FOR IMPLEMENTATION:
       ```
       dev story {{default_output_file}}
       ```
 
-      Or if you want to generate tests first:
-
+      FOR TEST GENERATION:
       ```
       QA {{default_output_file}}
       ```
 
+      ⛔ DO NOT execute these commands in this session. This workflow is COMPLETE.
+      The above are instructions for the USER to copy into a fresh chat.
       A fresh context gives the dev agent maximum working memory for the build.
     </output>
 

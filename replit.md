@@ -63,7 +63,18 @@ The BMad Method project provides a comprehensive framework for software developm
 - 3-session-per-story workflow cycle: Session 1 (Create Story + party mode review), Session 2 (Dev Story implementation), Session 3 (Code Review + Party Mode + Fix + Close)
 - Prefers accessible terminology over technical jargon (e.g., "established projects" over "brownfield")
 
-### Recent Changes (Beta.8-replit.7)
+### Recent Changes (Beta.8-replit.8)
+
+- **AC verification evidence requirement (Dev Story Step 8)**: Replaced generic "walk through each AC" with structured per-AC verification entries requiring Expected (plain-language user experience), Method (how verified), and Observed (actual result). Anti-gaming: agents must describe observable behavior in their own words, not reference code constructs.
+- **Context prioritization (Dev Story)**: Added critical block elevating Step 8 as the most important step, instructing agents to prioritize AC verification over verbose implementation narration when context is limited.
+- **Dependency verification (Dev Story Step 2)**: Added action requiring agents to verify that infrastructure from previous stories meets its original spec before building on it, preventing inherited gaps.
+- **Code Review evidence audit (Step 3)**: Added AC Evidence Audit action where the reviewer audits the dev agent's verification entries using CONFIRMED/DISPUTED/UNVERIFIED determinations instead of re-verifying independently.
+- **Code Review checklist expanded**: Added evidence audit items, evidence determinations, and user-facing evidence source checks (additive, existing items preserved).
+- **QA Automate AC-driven testing**: Restructured Step 1 with Option A (story-driven, preferred) and Option B (feature-driven, preserved). Added falsifiable assertion guidance with good/bad examples, structural assertion patterns for visual ACs, and AC Coverage metrics to summary template.
+- **Create Story guardrails**: Added OUTPUT CONSTRAINT critical block prohibiting code writing. Added "DO NOT execute" framing on exit prompts to prevent auto-execution in yolo mode. Added document-quality mistake warnings to SKILL.md while preserving original implementation-awareness warnings.
+- **Cross-workflow consistency**: Dev Story, Code Review, and QA Automate now share a unified evidence schema (Expected/Method/Observed) enabling seamless handoff between workflows.
+
+### Previous Changes (Beta.8-replit.7)
 
 - **Dev Story workflow restructured (11 steps)**: Restored the official BMAD multi-step structure to fix agents consistently skipping later steps (story doc updates, sprint status updates). The previous Replit adaptation had collapsed the workflow into 6 steps with a massive "Plan and implement" step, causing agents to lose track after implementation. Now uses 11 bounded steps: load → context → review detection → sprint status → plan → implement → test → verify ACs → platform checks → update docs → communicate completion. Replit adaptations preserved (agent-driven planning, LSP diagnostics, git status, screenshots).
 - **SKILL.md enhanced**: Now includes explicit 11-step summary and highlights steps 10-11 as commonly missed, providing structural reinforcement for agent compliance.
