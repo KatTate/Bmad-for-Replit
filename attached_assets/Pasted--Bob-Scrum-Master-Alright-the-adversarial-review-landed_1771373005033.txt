@@ -1,0 +1,209 @@
+🏃 Bob (Scrum Master):
+
+Alright, the adversarial review landed 12 hits and several of them are sharp. Let me have each agent take their findings and revise.
+
+💻 Amelia (Dev — addressing findings #1, #2, #9):
+
+Finding #1 is right — a table format doesn't fix a comprehension problem. If I already convinced myself "useColumnManager covers AC16-18," I'll write that same claim in a table cell. The fix needs to force re-interpretation, not just re-formatting.
+
+Revised Fix 1 — Dev Story Step 8:
+
+<action>For EACH acceptance criterion, produce a verification entry:
+  1. Read the AC text
+  2. In your own words, describe what a USER would see or experience if this AC is satisfied
+     (do NOT reference code constructs — describe observable behavior)
+  3. Verify against the running application using the platform's test runner or screenshots:
+     - For interactive behaviors: use run_test to execute the interaction and capture result
+     - For visual elements: take a screenshot and describe what is visible
+     - For data/logic: show test output or API response
+  4. Record what you ACTUALLY observed (not what you expected)
+  5. Mark: SATISFIED (observation matches expected) or NOT SATISFIED (gap identified)
+  
+  Format:
+  | AC# | Expected User Experience | Verification Method | Actual Observation | Status |
+  |-----|------------------------|--------------------|--------------------|--------|
+  
+  Example ROW:
+  | 16 | After clicking a year header, quarterly columns appear with visually distinct 
+        headers and a breadcrumb showing "2026 > Q1, Q2, Q3, Q4" | Screenshot of 
+        expanded view | Quarterly columns appear but headers are identical styling to 
+        year headers, no breadcrumb visible | NOT SATISFIED |
+  
+  CRITICAL: "The hook exists" or "the function is implemented" is NEVER valid in the 
+  "Actual Observation" column. Describe what you SEE, not what you WROTE.
+</action>
+That addresses #1 (forces re-interpretation via "describe in your own words" and "describe what you SEE") and #2 (specifies platform mechanisms: run_test and screenshots).
+
+Finding #9 — the checklist is self-assessed, and there's no external validator for the Code Review's own table. That's true, but it's also somewhat unavoidable without adding a fourth verification step. The practical mitigation: the Dev Story verification table becomes an INPUT to Code Review. The reviewer doesn't start from scratch — they start by auditing the dev's table.
+
+Revised Fix 2 — Dev Story checklist addition:
+
+- [ ] **AC Verification Table produced**: Every AC has a row with expected user experience 
+  (in plain language, no code references), verification method, actual observation, and status
+- [ ] **Observations are behavioral**: No row references code constructs — all observations 
+  describe what a user sees or experiences
+- [ ] **Every AC satisfied**: Each row shows SATISFIED status
+- [ ] **User-facing ACs verified in running app**: Screenshots or test runner results used, 
+  not code reading alone
+📋 John (PM — addressing findings #3, #10):
+
+Finding #3 — the code reviewer runs in a fresh context and may not know how to navigate. Valid. The fix: the Dev Story's AC Verification Table (from Fix 1) becomes a navigation guide for the reviewer.
+
+Revised Fix 3 — Code Review Step 3:
+
+<action>For EACH Acceptance Criterion:
+  1. Read the AC requirement carefully
+  2. Locate the dev agent's AC Verification Table from the story file's Dev Agent Record
+  3. AUDIT the dev's claimed observation: Read the code AND verify independently
+     - For code-level ACs: search implementation files for the code that satisfies it
+     - For user-facing ACs: use the dev's verification method (screenshot path, test scenario) 
+       to independently reproduce the observation
+  4. Determine: CONFIRMED (dev's claim is accurate), DISPUTED (evidence contradicts claim), 
+     or UNVERIFIED (cannot reproduce)
+  5. If no code implements this AC → HIGH finding: "AC not implemented"
+  6. If dev claimed SATISFIED but you cannot confirm → MEDIUM finding: "AC claim unverified"
+  
+  Produce an AC Audit Table:
+  | AC# | Dev Claimed | Reviewer Finding | Severity |
+  |-----|------------|-----------------|----------|
+  
+  CRITICAL: The reviewer is AUDITING the dev's verification, not creating their own from 
+  scratch. The dev's table provides the navigation context a fresh-context reviewer needs.
+</action>
+This solves the cold-start problem (#3) — the reviewer uses the dev's table as a map. It also addresses #10 — Dev Story Step 8 is the PRIMARY completeness gate (the dev produces evidence), and Code Review Step 3 is the AUDIT (the reviewer checks the evidence). Clear ownership, not redundant responsibility.
+
+Revised Fix 4 — Code Review checklist, revised:
+
+- [ ] **AC Audit Table produced**: Every AC has a row auditing the dev's claimed verification 
+  with CONFIRMED/DISPUTED/UNVERIFIED status
+- [ ] **Missing implementation check**: Explicitly looked for ACs with no corresponding code 
+  (absence = HIGH finding)
+- [ ] **Disputed claims investigated**: Any DISPUTED or UNVERIFIED AC investigated with code 
+  evidence or visual verification
+🧪 Quinn (QA — addressing findings #4, #5, #8):
+
+Finding #4 — I overcorrected by gutting the non-story paths. The QA workflow is used outside the story flow too.
+
+Revised Fix 5 — QA Step 1:
+
+### Step 1: Identify Test Targets
+Determine test source (in priority order):
+**Option A — Story-driven (preferred when a story file exists):**
+- If user provides a story file path, load it directly
+- If user names a feature, search implementation artifacts for the matching story file
+- When story file is available:
+  - Extract ALL acceptance criteria
+  - Number each AC — these become the primary test case sources
+  - Present AC list and confirm scope with user
+  - Maintain an AC Coverage Table throughout:
+    | AC# | AC Text (short) | Test Case | Covered |
+    |-----|----------------|-----------|---------|
+**Option B — Feature-driven (when no story file applies):**
+- Specific feature/component name from user
+- Directory to scan (e.g., `src/components/`)
+- Auto-discover features in the codebase
+- Document test targets and confirm with user
+Finding #5 — naming a test after an AC doesn't guarantee it verifies the AC. Fair.
+
+Revised addition to Step 3:
+
+#### AC-to-Test Mapping (when story file is available)
+For each acceptance criterion from Step 1:
+- Write at least one test case that directly verifies the AC
+- Each test MUST include at least one assertion that would FAIL if the AC were not implemented:
+  - BAD: `test('AC3: breadcrumb', () => { expect(true).toBe(true) })`
+  - GOOD: `test('AC3: breadcrumb shows drill path', () => { expect(page.locator('[data-testid="breadcrumb"]')).toContainText('Quarterly') })`
+- For visual/UX ACs, use structural assertions:
+  - Element exists and is visible: `toBeVisible()`
+  - Element contains expected text: `toContainText()`
+  - Element has distinguishing attribute or class: `toHaveAttribute()` or `toHaveClass()`
+  - Do NOT assert exact CSS values (colors, pixel sizes) — these break on theme changes
+- Update the AC Coverage Table with test case name and assertion summary
+That addresses #5 (assertions must fail if AC not implemented) and #8 (defines what visual assertions mean on this platform — structural, not pixel-level).
+
+Revised Fix 6 — QA checklist:
+
+## AC Coverage (when story file available)
+- [ ] Story file loaded and all ACs extracted
+- [ ] Each AC mapped to at least one test case with a falsifiable assertion
+- [ ] Visual/UX ACs use structural assertions (visibility, text content, attributes) not 
+  pixel-level CSS checks
+- [ ] AC Coverage Table included in test summary with covered/uncovered counts
+- [ ] Any uncovered ACs explicitly listed with justification
+🏃 Bob (Scrum Master — addressing findings #6, #7, #11, #12):
+
+Finding #7 — the cross-story dependency check was identified as important and then never drafted. That's an outright miss. Here's the fix:
+
+NEW Fix 8 — Dev Story Step 2, add dependency verification:
+
+In dev-story/instructions.xml, after the existing Step 2 content (load project context), add:
+
+<action>DEPENDENCY VERIFICATION: If this story's Dev Notes reference infrastructure, 
+  components, or hooks from a previous story:
+  1. Identify each dependency (e.g., "reuse useColumnManager from Story 5.2")
+  2. Load the ORIGINAL story file for that dependency
+  3. Read the original story's acceptance criteria for that infrastructure
+  4. Verify the dependency meets its ORIGINAL spec — not just that it runs
+  5. If the dependency is missing features specified in its original ACs, flag this 
+     BEFORE implementation. Either fix the dependency first or adjust the current 
+     story's approach.
+  
+  This prevents inheriting gaps from prior stories. "It works" is not the same as 
+  "it works as spec'd."
+</action>
+Finding #6 — the "DO NOT WRITE CODE" guardrail is fragile against the system prompt. True. But we can't modify the workflow engine's mode system in this round. The pragmatic fix is to make the guardrail as strong as possible within the current architecture.
+
+Revised Fix 7 — Create Story instructions.xml guardrail:
+
+<critical>OUTPUT CONSTRAINT: This workflow produces ONE markdown file as output. 
+  You must NOT:
+  - Write, modify, or create any application source code files
+  - Install packages or run build/test commands
+  - Create components, pages, routes, database schemas, or API endpoints
+  - Use any file-writing tools except to save the story document to {{default_output_file}}
+  If at any point you begin analyzing code with the intent to CHANGE it rather than 
+  UNDERSTAND it for story context, STOP. That is the Dev Story workflow's job.</critical>
+Finding #11 — removing implementation-awareness warnings from SKILL.md loses useful context. Agreed. Add rather than replace.
+
+Revised Fix 7 SKILL.md change:
+
+Instead of replacing the "Common LLM Mistakes" line, ADD a new line:
+
+- COMMON LLM MISTAKES TO PREVENT: reinventing wheels, wrong libraries, wrong file
+  locations, breaking regressions, ignoring UX, vague implementations
+- DOCUMENT-QUALITY MISTAKES TO PREVENT: skipping artifact analysis, vague acceptance 
+  criteria, missing dev notes sections, omitting UX deliverables for user-facing stories, 
+  not citing source references
+- This workflow creates a DOCUMENT, not code. Do NOT write application code, modify source 
+  files, or begin implementation. Your only output is a single markdown story file.
+Finding #12 — yolo mode can auto-proceed past the Create Story Step 6 WAIT and the agent may interpret "dev story" as an instruction. This is a real risk.
+
+Additional change to Create Story instructions.xml Step 6:
+
+Change the output block that currently shows:
+
+Copy one of these prompts to start:
+dev story {{default_output_file}}
+To:
+
+When ready, start a NEW chat session and use one of these prompts:
+FOR IMPLEMENTATION: dev story {{default_output_file}}
+FOR TEST GENERATION: QA {{default_output_file}}
+⛔ DO NOT execute these commands in this session. This workflow is COMPLETE.
+The above are instructions for the USER to copy into a fresh chat.
+The explicit "DO NOT execute" and "instructions for the USER" framing makes it much harder for yolo mode to misinterpret.
+
+🏃 Bob (Scrum Master):
+
+Final tally — 8 revised fixes across 9 files:
+
+Fix #	File(s)	Change	AR Finding(s) Addressed
+1	dev-story/instructions.xml Step 8	AC verification with observable behavior, platform mechanisms specified	#1, #2
+2	dev-story/checklist.md	Behavioral observations required, no code references in evidence	#9
+3	code-review/instructions.xml Steps 3 & 3.5	Reviewer AUDITS dev's table, not independent re-verification; clear ownership	#3, #10
+4	code-review/checklist.md	AC Audit Table, disputed claims investigation	#3
+5	qa/automate/instructions.md Steps 1, 3, 5	Story-driven as primary, feature-driven preserved; falsifiable assertions required	#4, #5
+6	qa/automate/checklist.md	Structural assertions defined, uncovered ACs listed	#8
+7	create-story/instructions.xml + SKILL.md	Output constraint with specific prohibitions; add doc-quality warnings, keep implementation warnings; "DO NOT execute" framing on exit prompts	#6, #11, #12
+8	dev-story/instructions.xml Step 2	Dependency verification against original story spec	#7
+The adversarial review caught real problems. The revised fixes are tighter — they specify mechanisms, define ownership, prevent gaming, preserve existing functionality, and close the cross-story gap.
