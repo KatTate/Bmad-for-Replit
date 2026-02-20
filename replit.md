@@ -63,7 +63,12 @@ The BMad Method project provides a comprehensive framework for software developm
 - 3-session-per-story workflow cycle: Session 1 (Create Story + party mode review), Session 2 (Dev Story implementation), Session 3 (Code Review + Party Mode + Fix + Close)
 - Prefers accessible terminology over technical jargon (e.g., "established projects" over "brownfield")
 
-### Recent Changes (Beta.8-replit.8)
+### Recent Changes (Beta.8-replit.9)
+
+- **Replit Task List Integration (15 planning/documentation SKILL.md files)**: Added mandatory "Replit Task List Integration" section to all planning and documentation workflow skills. On workflow activation, the agent must create a Replit task list with one task per workflow step before beginning Step 1, giving users visible progress tracking. Conditional/branch steps (e.g., step-01b continuation) are added dynamically only if triggered. Brainstorm uses phase-based grouping (4 phases) due to its branching technique selection structure. Tech Writer creates tasks after menu item selection. Updated files: bmad-create-brief, bmad-create-prd, bmad-create-ux, bmad-create-architecture, bmad-create-epics, bmad-create-story, bmad-validate-prd, bmad-edit-prd, bmad-check-readiness, bmad-brainstorm, bmad-research, bmad-tech-writer, bmad-document-project, bmad-sprint-planning, bmad-project-context.
+- **Agent autonomy guidance**: Low or Medium autonomy recommended for all planning/documentation workflows to prevent agents from skipping steps and auto-proceeding past WAIT points. High or Max autonomy appropriate for implementation workflows (Dev Story, Quick Dev, QA, Code Review).
+
+### Previous Changes (Beta.8-replit.8)
 
 - **AC verification evidence requirement (Dev Story Step 8)**: Replaced generic "walk through each AC" with structured per-AC verification entries requiring Expected (plain-language user experience), Method (how verified), and Observed (actual result). Anti-gaming: agents must describe observable behavior in their own words, not reference code constructs.
 - **Context prioritization (Dev Story)**: Added critical block elevating Step 8 as the most important step, instructing agents to prioritize AC verification over verbose implementation narration when context is limited.
