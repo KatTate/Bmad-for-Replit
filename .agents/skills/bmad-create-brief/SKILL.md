@@ -40,7 +40,7 @@ The workflow uses step-file architecture with 7 step files (6 sequential steps p
 
 ## Replit Task List Integration
 
-**MANDATORY on activation:** Before beginning Step 1, create a Replit task list using the `write_task_list` tool with one task per workflow step listed above. Each task should include the step number and name (e.g., "Step 1: Initialization — Detect continuation, discover inputs, create output document"). Mark the first task as `in_progress`. As you complete each step, immediately mark its task as `completed` (architect_reviewed: "not_applicable", reason: "BMAD workflow step — planning/facilitation, not code") and mark the next task as `in_progress`. This gives the user visible progress tracking throughout the workflow.
+**MANDATORY on activation:** Before beginning Step 1, create a Replit task list using the `write_task_list` tool with one task per workflow step listed above (6 sequential steps; if Step 1b continuation is triggered, add it as a task dynamically). Each task should include the step number and name (e.g., "Step 1: Initialization — Detect continuation, discover inputs, create output document"). Mark the first task as `in_progress`. As you complete each step, immediately mark its task as `completed` (architect_reviewed: "not_applicable", reason: "BMAD workflow step — planning/facilitation, not code") and mark the next task as `in_progress`. This gives the user visible progress tracking throughout the workflow.
 
 ## Critical Rules
 
